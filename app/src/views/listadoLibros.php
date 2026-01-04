@@ -1,10 +1,10 @@
 <?php
 session_start();
-require __DIR__ . "/../vendor/autoload.php";
+require __DIR__ . "/../../vendor/autoload.php";
 use App\Models\Basedatos;
 
 $basedatos = new Basedatos();
-    
+$pdo = $basedatos->getConexion();
 
 $sql = "
 SELECT 
@@ -12,7 +12,7 @@ SELECT
     libros.titulo,
     libros.autor,
     libros.genero,
-    libros.año,
+    libros.año AS anio,
     usuarios.nombre AS dueno,
     prestamos.id AS prestado
 FROM libros
