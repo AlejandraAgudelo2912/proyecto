@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once "../models/basedatos.php";
+require __DIR__ . "/../vendor/autoload.php";
+use App\Models\Basedatos;
+
+$basedatos = new Basedatos();
     
 
 $sql = "

@@ -1,0 +1,16 @@
+{
+    "name": "nicol/proyecto",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Laura Nicolás Flores",
+            "email": "nicolasfloreslaura@gmail.com"
+        }
+    ],
+    "require": {}
+}
