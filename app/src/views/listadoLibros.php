@@ -4,54 +4,54 @@ require __DIR__ . "/../../vendor/autoload.php";
 use App\Models\Basedatos;
 
 $basedatos = new Basedatos();
-$pdo = $basedatos->getConexion();
 
-$sql = "
-SELECT 
-    libros.id,
-    libros.titulo,
-    libros.autor,
-    libros.genero,
-    libros.anio,
-    usuarios.nombre
-    FROM libros
-    INNER JOIN usuarios ON libros.id_usuario = usuarios.id
-    ";
+$libros = $basedatos->obtener_listado_Libros();
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Listado de libros</title>
-    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-10">
 
-<h1>Libros disponibles</h1>
+<h1 class="text-4xl font-bold mb-8 text-gray-800">Libros disponibles</h1>
+<div class="w-full max-w-5xl bg-white shadow-lg rounded-xl overflow-hidden">
+    <table border="1" cellpadding="8" class="min-w-full text-left">
+        <thead class="bg-blue-600 text-white">
+            <tr>
+                <th class="px-6 py-3">Título</th>
+                <th class="px-6 py-3">Autor</th>
+                <th class="px-6 py-3">Género</th>
+                <th class="px-6 py-3">Año</th>
+                <th class="px-6 py-3">Propietario</th>
+            </tr>
+        </thead>
 
-<table border="1" cellpadding="8">
-    <tr>
-        <th>Título</th>
-        <th>Autor</th>
-        <th>Género</th>
-        <th>Año</th>
-    </tr>
+        <tbody class="divide-y divide-gray-200">
 
-    <?php foreach ($libros as $libro): ?>
-        <tr>
-            <td><?= htmlspecialchars($libro['titulo']) ?></td>
-            <td><?= htmlspecialchars($libro['autor']) ?></td>
-            <td><?= htmlspecialchars($libro['genero']) ?></td>
-            <td><?= htmlspecialchars($libro['anio']) ?></td>
-           
-        </tr>
-    <?php endforeach; ?>
+            <?php foreach ($libros as $libro): ?>
 
-</table>
+            <tr class="hover:bg-gray-50 transition">
+
+            <td class="px-6 py-4 font-medium text-gray-900"><?= htmlspecialchars($libro['titulo']) ?></td>
+
+            <td class="px-6 py-4 text-gray-700"><?= htmlspecialchars($libro['autor']) ?></td>
+
+            <td class="px-6 py-4">
+            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm"><?= htmlspecialchars($libro['genero']) ?></span></td>
+
+            <td class="px-6 py-4 text-gray-700"><?= htmlspecialchars($libro['anio']) ?></td>
+
+            <td class="px-6 py-4 text-gray-700"><?= htmlspecialchars($libro['nombre']) ?></td>
+
+            </tr><?php endforeach; ?>
+
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

@@ -38,6 +38,23 @@ class Basedatos{
     }
 
     public function obtener_listado_Libros() {
-        
+        $pdo = $this->getConexion();
+        $sql = "
+            SELECT 
+                libros.id,
+                libros.titulo,
+                libros.autor,
+                libros.genero,
+                libros.anio,
+                usuarios.nombre
+                FROM libros
+                INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+            ";
+                
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $libros;
     }
 }
