@@ -4,7 +4,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "files":[
+            "src/helpers/funciones.php"
+        ]
     },
     "authors": [
         {
@@ -12,5 +15,7 @@
             "email": "nicolasfloreslaura@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "monolog/monolog": "^3.10"
+    }
 }
