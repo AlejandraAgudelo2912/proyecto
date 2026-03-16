@@ -12,13 +12,11 @@ SELECT
     libros.titulo,
     libros.autor,
     libros.genero,
-    libros.año AS anio,
-    usuarios.nombre AS dueno,
-    prestamos.id AS prestado
-FROM libros
-JOIN usuarios ON libros.id_usuario = usuarios.id
-LEFT JOIN prestamos ON libros.id = prestamos.id_libro
-";
+    libros.anio,
+    usuarios.nombre
+    FROM libros
+    INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+    ";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
@@ -41,8 +39,6 @@ $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <th>Autor</th>
         <th>Género</th>
         <th>Año</th>
-        <th>Dueño</th>
-        <th>Estado</th>
     </tr>
 
     <?php foreach ($libros as $libro): ?>
@@ -51,14 +47,7 @@ $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= htmlspecialchars($libro['autor']) ?></td>
             <td><?= htmlspecialchars($libro['genero']) ?></td>
             <td><?= htmlspecialchars($libro['anio']) ?></td>
-            <td><?= htmlspecialchars($libro['dueno']) ?></td>
-            <td>
-                <?php if ($libro['prestado']): ?>
-                    Prestado
-                <?php else: ?>
-                    Disponible
-                <?php endif; ?>
-            </td>
+           
         </tr>
     <?php endforeach; ?>
 

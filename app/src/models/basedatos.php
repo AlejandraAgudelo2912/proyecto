@@ -36,4 +36,8 @@ class Basedatos{
     public function getConexion(): PDO | null {
         return $this->conexion;
     }
+
+    public function obtener_listado_Libros() {
+        
+    }
 }
