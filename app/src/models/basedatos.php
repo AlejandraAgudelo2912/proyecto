@@ -6,6 +6,11 @@ use PDOException;
 
 class Basedatos{
     private PDO | null $conexion;
+    private string $motor;
+    private string $host;
+    private string $database;
+    private string $user;
+    private string $password;
 
     public function __construct(){
 
@@ -13,22 +18,23 @@ class Basedatos{
 
         $config = json_decode(file_get_contents($archivoConfig), true);
 
-        $motor = $config["dbMotor"];
-        $host = $config["mysqlHost"];
-        $user = $config["mysqlUser"];
-        $password = $config["mysqlPassword"];
-        $database = $config["mysqlDatabase"];
+        $this->motor = $config["dbMotor"];
+        $this->host = $config["mysqlHost"];
+        $this->user = $config["mysqlUser"];
+        $this->password = $config["mysqlPassword"];
+        $this->database = $config["mysqlDatabase"];
 
-        $DSN = "$motor:dbname=$database;host=$host;charset=utf8mb4";
+        $DSN = "$this->motor:dbname=$this->database;host=$this->host;charset=utf8mb4";
         
         try{
-            $this->conexion = new PDO($DSN, $user, $password);
+            $this->conexion = new PDO($DSN, $this->user, $this->password);
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         }
         catch (PDOException $e){
             $this->conexion = null;
             echo "Error de conexión a la base de datos: " . $e->getMessage();
+            logger()->error("Error de conexión a la base de datos: " . $e->getMessage());
             die();
         }
     }
@@ -54,7 +60,7 @@ class Basedatos{
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        logger()->info("Listado de libros obtenido correctamente");
         return $libros;
     }
 }

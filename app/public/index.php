@@ -10,6 +10,7 @@ if ($basedatos->getConexion()!=null){
 }
 else{
     $mensaje = "ERROR en la conexión a la base de datos";
+    logger()->error($mensaje);
 } 
 
 
