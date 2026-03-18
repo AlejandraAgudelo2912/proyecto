@@ -5,16 +5,8 @@ use App\Models\Basedatos;
 $basedatos = new Basedatos();
 
 $libros = $basedatos->obtener_listado_Libros();
-
+require __DIR__ . "/layout.php";
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Listado de libros</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center p-10">
 
 <h1 class="text-4xl font-bold mb-8 text-gray-800">Libros disponibles</h1>
 <div class="w-full max-w-5xl bg-white shadow-lg rounded-xl overflow-hidden">
@@ -52,5 +44,4 @@ $libros = $basedatos->obtener_listado_Libros();
     </table>
 </div>
 
-</body>
-</html>
+<?php require __DIR__ . "/footer.php"; ?>
