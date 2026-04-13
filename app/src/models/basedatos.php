@@ -3,8 +3,8 @@ namespace App\Models;
 
 use PDO;
 use PDOException;
-
 class Basedatos{
+    
     private PDO | null $conexion;
     private string $motor;
     private string $host;
@@ -13,7 +13,6 @@ class Basedatos{
     private string $password;
 
     public function __construct(){
-
         $archivoConfig = __DIR__ . "/../config/config.json";
 
         $config = json_decode(file_get_contents($archivoConfig), true);
@@ -63,4 +62,21 @@ class Basedatos{
         logger()->info("Listado de libros obtenido correctamente");
         return $libros;
     }
+
+    public function obtener_usuario_por_email($email) {
+        $pdo = $this->getConexion();
+        $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        logger()->info("Usuario obtenido por email: " . ($usuario ? $usuario['email'] : 'No encontrado'));
+
+        return $usuario;
+    }
+
+
 }
