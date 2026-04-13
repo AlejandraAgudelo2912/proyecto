@@ -27,6 +27,8 @@ if (!$usuario || !password_verify($password, $usuario["password"])) {
 $_SESSION["usuario"]["id"] = $usuario["id"];
 $_SESSION["usuario"]["nombre"] = $usuario["nombre"];
 
+logger()->info("Usuario ha iniciado sesión: " . $usuario["email"]);
+
 header("Location: ../../public/index.php");
 exit();
 
