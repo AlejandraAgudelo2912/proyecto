@@ -6,6 +6,8 @@
 - [x] Listado de libros
 - [x] Login
 - [x] Barra de navegación
+- [x] Opcion de cerrar sesión
+- [x] Register
 
 ---
 
@@ -20,7 +22,6 @@
 - [ ] Subida de libros
 - [ ] Posibilidad de autenticarnos con la cuenta de google 
 - [ ] Posibilidad de dar de alta libros de forma masiva por medio de un CSV 
-- [ ] Opcion de cerrar sesión
 - [ ] Para poder operar con la aplicación, hay que estar dado de alta en ella
 - [ ] Prestar libros
 - [ ] Un usuario puede ver los libros que ha dejado para prestar y los que ha pedido prestados

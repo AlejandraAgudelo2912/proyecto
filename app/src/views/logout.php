@@ -2,10 +2,11 @@
 require __DIR__ . "/../../vendor/autoload.php";
 
     session_start();
-    session_destroy();
 
-    //log
-    logger()->info("Usuario ha cerrado sesión");
+    //indicamos en el log que el usuario ha cerrado sesión
+    logger()->info("Usuario ha cerrado sesión: " . ($_SESSION["usuario"]["email"] ?? "desconocido"));
+
+    session_destroy();
 
     header("Location: ../../public/index.php");
     exit;

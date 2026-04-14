@@ -72,11 +72,32 @@ class Basedatos{
         $stmt->execute();
 
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        logger()->info("Usuario obtenido por email: " . ($usuario ? $usuario['email'] : 'No encontrado'));
-
         return $usuario;
     }
+    
+    public function crearUsuario(string $nombre, $apellido1, $apellido2, string $email, string $password): bool {
+        $pdo = $this->getConexion();
 
+        $sql = "INSERT INTO usuarios (nombre,apellido1, apellido2, email, password) VALUES (:nombre, :apellido1, :apellido2, :email, :password)";
+        
+        $stmt = $pdo->prepare($sql);
+        
+        return $stmt->execute([
+            'nombre' => $nombre,
+            'apellido1' => $apellido1,
+            'apellido2' => $apellido2,
+            'email' => $email,
+            'password' => $password
+        ]);
+    }
+
+    public function existeUsuario(string $email): bool {
+        $pdo = $this->getConexion();
+
+        $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+
+        return $stmt->fetch() !== false;
+    }
 
 }

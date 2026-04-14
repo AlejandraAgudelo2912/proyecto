@@ -18,6 +18,7 @@ define ('BASE_URL','http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
                 <a href="<?= BASE_URL ?>src/views/logout.php" class="hover:text-gray-200 transition">Cerrar sesión</a>
             <?php else: ?>
                 <a href="<?= BASE_URL ?>src/views/login.php" class="hover:text-gray-200 transition">Login</a>
+                <a href="<?= BASE_URL ?>src/views/register.php" class="hover:text-gray-200 transition">Registro</a>
             <?php endif; ?>
         </div>
     </div>
