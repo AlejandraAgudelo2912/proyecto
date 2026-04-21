@@ -16,6 +16,8 @@
         }
     ],
     "require": {
-        "monolog/monolog": "^3.10"
+        "monolog/monolog": "^3.10",
+        "google/apiclient": "^2.19",
+        "vlucas/phpdotenv": "^5.6"
     }
 }
