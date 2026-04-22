@@ -4,53 +4,88 @@ require __DIR__ . "/../../vendor/autoload.php";
 require __DIR__ . "/layout.php";
 ?>
 
-<h1 class="text-4xl font-bold mb-8 text-gray-800">Registro</h1>
+<div class="max-w-md mx-auto mt-10">
 
-<?php if (isset($_SESSION['error'])): ?>
-    <div class="mb-4 text-red-600 font-bold">
-        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">
+        Crear cuenta
+    </h1>
+
+    <p class="text-center text-gray-500 mb-8">
+        Únete a la comunidad y empieza a compartir libros
+    </p>
+
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="mb-6 bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm text-center">
+            <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
+
+    <form action="register_process.php" method="post"
+          class="bg-white shadow-lg rounded-2xl p-8 space-y-5">
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+            <input type="text" name="nombre" required
+                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                   value="<?= htmlspecialchars($_SESSION['old_nombre'] ?? '') ?>">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Primer apellido</label>
+            <input type="text" name="apellido1" required
+                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                   value="<?= htmlspecialchars($_SESSION['old_apellido1'] ?? '') ?>">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Segundo apellido (opcional)</label>
+            <input type="text" name="apellido2"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                   value="<?= htmlspecialchars($_SESSION['old_apellido2'] ?? '') ?>">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" name="email" required
+                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                   value="<?= htmlspecialchars($_SESSION['old_email'] ?? '') ?>">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+            <input type="password" name="password" required
+                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
+            <input type="password" name="password_confirm" required
+                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+
+        <button
+            class="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition shadow">
+            Crear cuenta
+        </button>
+
+    </form>
+    <div class="flex items-center my-6">
+        <div class="flex-1 h-px bg-gray-300"></div>
+            <span class="px-3 text-gray-400 text-sm">o</span>
+        <div class="flex-1 h-px bg-gray-300"></div>
     </div>
-<?php endif; ?>
-
-<form action="register_process.php" method="post" class="w-full max-w-sm bg-white shadow-md rounded-lg p-6">
-
-    <div class="mb-4">
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required class="w-full border p-2 rounded"
-        value="<?= $_SESSION['old_nombre'] ?? '' ?>">
+    
+    <div class="flex justify-center">
+        <?php require __DIR__ . "/partials/boton_de_google.php"; ?>
     </div>
 
-    <div class="mb-4">
-        <label>Primer Apellido:</label>
-        <input type="text" name="apellido1" required class="w-full border p-2 rounded"
-        value="<?= $_SESSION['old_apellido1'] ?? '' ?>">
-    </div>   
+    <p class="text-center text-sm text-gray-500 mt-6">
+        ¿Ya tienes cuenta?
+        <a href="<?= BASE_URL ?>src/views/login.php" class="text-blue-600 font-medium hover:underline">
+            Inicia sesión
+        </a>
+    </p>
 
-    <div class="mb-4">
-        <label>Segundo Apellido (opcional):</label>
-        <input type="text" name="apellido2" class="w-full border p-2 rounded"
-        value="<?= $_SESSION['old_apellido2'] ?? '' ?>">
-    </div>
+</div>
 
-    <div class="mb-4">
-        <label>Email:</label>
-        <input type="email" name="email" required class="w-full border p-2 rounded"
-        value="<?= $_SESSION['old_email'] ?? '' ?>">
-    </div>
-
-    <div class="mb-4">
-        <label>Contraseña:</label>
-        <input type="password" name="password" required class="w-full border p-2 rounded">
-    </div>
-
-    <div class="mb-4">
-        <label>Confirmar contraseña:</label>
-        <input type="password" name="password_confirm" required class="w-full border p-2 rounded">
-    </div>
-
-
-    <button class="w-full bg-blue-600 text-white py-2 rounded">
-        Registrarse
-    </button>
-
-</form>
+<?php require __DIR__ . "/footer.php"; ?>

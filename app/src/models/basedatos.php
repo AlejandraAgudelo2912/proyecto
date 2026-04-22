@@ -52,6 +52,9 @@ class Basedatos{
                 libros.genero,
                 libros.anio,
                 libros.caratula,
+                libros.id_usuario,
+                libros.prestado,
+                libros.prestado_a,
                 usuarios.nombre
                 FROM libros
                 INNER JOIN usuarios ON libros.id_usuario = usuarios.id
@@ -141,6 +144,36 @@ class Basedatos{
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function prestarLibro($idLibro, $usuarioId): bool {
+        $pdo = $this->getConexion();
+
+        $sql = "UPDATE libros 
+                SET prestado = 1, prestado_a = :usuario 
+                WHERE id = :id";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            'usuario' => $usuarioId,
+            'id' => $idLibro
+        ]);
+    }
+
+    public function devolverLibro($idLibro, $usuarioId): bool {
+        $pdo = $this->getConexion();
+
+        $sql = "UPDATE libros 
+                SET prestado = 0, prestado_a = NULL 
+                WHERE id = :id AND prestado_a = :usuario";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            'usuario' => $usuarioId,
+            'id' => $idLibro
+        ]);
     }
 
 }

@@ -31,3 +31,7 @@ CREATE TABLE `prestamos` (
   FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
   FOREIGN KEY (id_libro) REFERENCES libros(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE libros 
+ADD prestado BOOLEAN DEFAULT 0,
+ADD prestado_a INT NULL;

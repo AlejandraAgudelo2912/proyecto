@@ -12,12 +12,14 @@
 - [x] Subida de libros
 - [x] Buscador para buscar libros por titulo, autor, genero
 - [x] Resaltación de los resultados de búsqueda
+- [x] Mejora de la interfaz (colores, botones, etc)
+- [x] Prestar y devolver libros
 
 ---
 
 ## 🚧 En desarrollo
 
-- [ ] Prestar libros
+
 
 ---
 
