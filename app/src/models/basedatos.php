@@ -119,4 +119,28 @@ class Basedatos{
         ]);
     }
 
+    public function buscarLibros($busqueda) {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            SELECT libros.*, usuarios.nombre
+            FROM libros
+            INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+            WHERE 
+                libros.titulo LIKE :busqueda OR
+                libros.autor LIKE :busqueda OR
+                libros.genero LIKE :busqueda OR
+                libros.anio LIKE :busqueda OR
+                usuarios.nombre LIKE :busqueda
+        ";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute([
+            'busqueda' => "%" . $busqueda . "%"
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
