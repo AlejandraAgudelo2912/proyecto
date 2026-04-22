@@ -13,6 +13,7 @@ require __DIR__ . "/layout.php";
     <table border="1" cellpadding="8" class="min-w-full text-left">
         <thead class="bg-blue-600 text-white">
             <tr>
+                <th class="px-6 py-3">Portada</th>
                 <th class="px-6 py-3">Título</th>
                 <th class="px-6 py-3">Autor</th>
                 <th class="px-6 py-3">Género</th>
@@ -26,6 +27,13 @@ require __DIR__ . "/layout.php";
             <?php foreach ($libros as $libro): ?>
 
             <tr class="hover:bg-gray-50 transition">
+                
+            <td> <?php if (!empty($libro['caratula'])): ?>
+                    <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>">
+                <?php else: ?>
+                    <span>Sin imagen</span>
+                <?php endif; ?>
+            </td>
 
             <td class="px-6 py-4 font-medium text-gray-900"><?= htmlspecialchars($libro['titulo']) ?></td>
 

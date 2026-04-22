@@ -16,6 +16,7 @@ define ('BASE_URL','http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
             <?php if (isset($_SESSION["usuario"])): ?>
                 <a href="<?= BASE_URL ?>src/views/listadoLibros.php" class="hover:text-gray-200 transition">Libros</a>
                 <a href="<?= BASE_URL ?>src/views/logout.php" class="hover:text-gray-200 transition">Cerrar sesión</a>
+                <a href="<?= BASE_URL ?>/src/views/crearLibro.php">Añadir libro</a>
             <?php else: ?>
                 <a href="<?= BASE_URL ?>src/views/login.php" class="hover:text-gray-200 transition">Login</a>
                 <a href="<?= BASE_URL ?>src/views/register.php" class="hover:text-gray-200 transition">Registro</a>

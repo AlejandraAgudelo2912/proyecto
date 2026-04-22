@@ -9,12 +9,13 @@
 - [x] Opcion de cerrar sesión
 - [x] Registro
 - [x] Posibilidad de autenticarnos con la cuenta de google 
+- [x] Subida de libros
 
 ---
 
 ## 🚧 En desarrollo
 
-- [ ] Subida de libros
+- [ ] Buscador para buscar libros por titulo, autor, genero
 
 ---
 
@@ -25,6 +26,5 @@
 - [ ] Prestar libros
 - [ ] Un usuario puede ver los libros que ha dejado para prestar y los que ha pedido prestados
 - [ ] Se debe indicar los días que lleva un libro prestado
-- [ ] Buscador para buscar libros por titulo, autor, genero
 - [ ] Interfaz para administrar la aplicación 
 

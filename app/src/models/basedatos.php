@@ -51,6 +51,7 @@ class Basedatos{
                 libros.autor,
                 libros.genero,
                 libros.anio,
+                libros.caratula,
                 usuarios.nombre
                 FROM libros
                 INNER JOIN usuarios ON libros.id_usuario = usuarios.id
@@ -98,6 +99,24 @@ class Basedatos{
         $stmt->execute(['email' => $email]);
 
         return $stmt->fetch() !== false;
+    }
+
+    public function crearLibro($titulo, $autor, $genero, $anio, $id_usuario, $caratula): bool {
+        $pdo = $this->getConexion();
+
+        $sql = "INSERT INTO libros (titulo, id_usuario, autor, genero, anio, caratula) 
+                VALUES (:titulo, :id_usuario, :autor, :genero, :anio, :caratula)";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            'titulo' => $titulo,
+            'autor' => $autor,
+            'genero' => $genero,
+            'anio' => $anio,
+            'id_usuario' => $id_usuario,
+            'caratula' => $caratula
+        ]);
     }
 
 }
