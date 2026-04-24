@@ -23,7 +23,7 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
                Libros
             </a>
 
-            <a href="#"
+            <a href="<?= BASE_URL ?>src/views/misLibros.php"
                class="hover:text-blue-600 transition font-medium">
                Mis préstamos
             </a>

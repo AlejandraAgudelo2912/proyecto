@@ -176,4 +176,35 @@ class Basedatos{
         ]);
     }
 
+    public function obtenerLibrosPrestados($idUsuario) {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            SELECT libros.*, usuarios.nombre
+            FROM libros
+            INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+            WHERE libros.prestado_a = :id
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $idUsuario]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerLibrosPropios($idUsuario) {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            SELECT *
+            FROM libros
+            WHERE id_usuario = :id
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $idUsuario]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

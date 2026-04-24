@@ -9,6 +9,11 @@ if ($basedatos->getConexion() == null) {
     die("Error de conexión a la base de datos");
 }
 
+if (!isset($_SESSION["usuario"])) {
+    header("Location: login.php");
+    exit();
+}
+
 $busqueda = $_GET['busqueda'] ?? '';
 
 if (!empty($busqueda)) {
@@ -44,6 +49,11 @@ require __DIR__ . "/layout.php";
         </button>
     </div>
 </form>
+<?php if (!empty($busqueda)): ?>
+    <p class="text-gray-500 mb-4">
+        Resultados para: <strong><?= htmlspecialchars($busqueda) ?></strong>
+    </p>
+<?php endif; ?>
 
 <?php if (empty($libros)): ?>
 

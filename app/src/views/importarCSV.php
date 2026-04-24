@@ -2,6 +2,11 @@
 session_start();
 require __DIR__ . "/../../vendor/autoload.php";
 require __DIR__ . "/layout.php";
+
+if (!isset($_SESSION["usuario"])) {
+    header("Location: login.php");
+    exit();
+}
 ?>
 
 <div class="max-w-md mx-auto mt-10">

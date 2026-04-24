@@ -21,14 +21,13 @@
 
 ## 🚧 En desarrollo
 
-
+- [ ] Un usuario puede ver los libros que ha dejado para prestar y los que ha pedido prestados
 
 ---
 
 ## ❌ Pendiente
 
 - [ ] Para poder operar con la aplicación, hay que estar dado de alta en ella
-- [ ] Un usuario puede ver los libros que ha dejado para prestar y los que ha pedido prestados
 - [ ] Se debe indicar los días que lleva un libro prestado
 - [ ] Interfaz para administrar la aplicación 
 - [ ] Tratar con datos, tipo que las fechas sean verdaderas
