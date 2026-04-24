@@ -35,3 +35,5 @@ CREATE TABLE `prestamos` (
 ALTER TABLE libros 
 ADD prestado BOOLEAN DEFAULT 0,
 ADD prestado_a INT NULL;
+
+ALTER TABLE libros ADD fecha_prestamo DATE NULL;

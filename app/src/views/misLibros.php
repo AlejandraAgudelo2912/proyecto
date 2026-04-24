@@ -15,17 +15,19 @@ $idUsuario = $_SESSION['usuario']['id'];
 
 $misLibros = $db->obtenerLibrosPropios($idUsuario);
 $prestados = $db->obtenerLibrosPrestados($idUsuario);
+
+
 ?>
 
 <div class="space-y-10">
 
     <h1 class="text-4xl font-bold text-gray-800">
-        📚 Mis libros
+        Mis libros
     </h1>
 
     <!-- LIBROS PROPIOS -->
     <div>
-        <h2 class="text-2xl font-semibold mb-4">📖 Libros que he subido</h2>
+        <h2 class="text-2xl font-semibold mb-4">Libros que he subido</h2>
 
         <?php if (empty($misLibros)): ?>
             <p class="text-gray-500">No has añadido libros</p>
@@ -35,7 +37,7 @@ $prestados = $db->obtenerLibrosPrestados($idUsuario);
                 <?php foreach ($misLibros as $libro): ?>
 
                     <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
-
+                        <a href="verLibro.php?id=<?= $libro['id'] ?>">
                         <?php if ($libro['caratula']): ?>
                             <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"
                                  class="w-full h-40 object-cover rounded mb-2">
@@ -49,7 +51,7 @@ $prestados = $db->obtenerLibrosPrestados($idUsuario);
                         <?php else: ?>
                             <span class="text-green-500 text-sm">Disponible</span>
                         <?php endif; ?>
-
+                        </a>
                     </div>
 
                 <?php endforeach; ?>
@@ -68,8 +70,17 @@ $prestados = $db->obtenerLibrosPrestados($idUsuario);
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <?php foreach ($prestados as $libro): ?>
+                    <?php
+                        $dias = null;
 
+                        if ($libro['fecha_prestamo']) {
+                            $fechaInicio = new DateTime($libro['fecha_prestamo']);
+                            $hoy = new DateTime();
+                            $dias = $hoy->diff($fechaInicio)->days;
+                        }
+                    ?>
                     <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                        <a href="verLibro.php?id=<?= $libro['id'] ?>">
 
                         <?php if ($libro['caratula']): ?>
                             <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"
@@ -82,6 +93,18 @@ $prestados = $db->obtenerLibrosPrestados($idUsuario);
                         <span class="text-sm text-gray-400">
                             Propietario: <?= htmlspecialchars($libro['nombre']) ?>
                         </span>
+
+                        <?php
+                            $color = "text-green-500";
+
+                            if ($dias > 7) $color = "text-yellow-500";
+                            if ($dias > 14) $color = "text-red-500";
+                        ?>
+
+                        <p class="text-xs <?= $color ?>">
+                            <?= $dias ?> días prestado
+                        </p>
+                        </a>
 
                     </div>
 

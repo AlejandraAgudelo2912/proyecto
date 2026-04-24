@@ -150,7 +150,7 @@ class Basedatos{
         $pdo = $this->getConexion();
 
         $sql = "UPDATE libros 
-                SET prestado = 1, prestado_a = :usuario 
+                SET prestado = 1, prestado_a = :usuario, fecha_prestamo = NOW()
                 WHERE id = :id";
 
         $stmt = $pdo->prepare($sql);
@@ -165,7 +165,7 @@ class Basedatos{
         $pdo = $this->getConexion();
 
         $sql = "UPDATE libros 
-                SET prestado = 0, prestado_a = NULL 
+                SET prestado = 0, prestado_a = NULL, fecha_prestamo = NULL
                 WHERE id = :id AND prestado_a = :usuario";
 
         $stmt = $pdo->prepare($sql);

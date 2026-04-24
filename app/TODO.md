@@ -22,14 +22,13 @@
 
 ## 🚧 En desarrollo
 
-
+- [ ] Se debe indicar los días que lleva un libro prestado
 
 ---
 
 ## ❌ Pendiente
 
 - [ ] Para poder operar con la aplicación, hay que estar dado de alta en ella
-- [ ] Se debe indicar los días que lleva un libro prestado
 - [ ] Interfaz para administrar la aplicación
 - [ ] Tratar con datos, tipo que las fechas sean verdaderas
 - [ ] Filtrar los resultados por libros disponibles y mios
