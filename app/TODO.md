@@ -15,13 +15,14 @@
 - [x] Mejora de la interfaz (colores, botones, etc)
 - [x] Prestar y devolver libros
 - [x] Posibilidad de dar de alta libros de forma masiva por medio de un CSV 
+- [x] Un usuario puede ver los libros que ha dejado para prestar y los que ha pedido prestados
 
 
 ---
 
 ## 🚧 En desarrollo
 
-- [ ] Un usuario puede ver los libros que ha dejado para prestar y los que ha pedido prestados
+
 
 ---
 
@@ -29,7 +30,7 @@
 
 - [ ] Para poder operar con la aplicación, hay que estar dado de alta en ella
 - [ ] Se debe indicar los días que lleva un libro prestado
-- [ ] Interfaz para administrar la aplicación 
+- [ ] Interfaz para administrar la aplicación
 - [ ] Tratar con datos, tipo que las fechas sean verdaderas
 - [ ] Filtrar los resultados por libros disponibles y mios
 

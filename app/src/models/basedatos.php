@@ -207,4 +207,20 @@ class Basedatos{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerLibroPorId($id) {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            SELECT libros.*, usuarios.nombre
+            FROM libros
+            INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+            WHERE libros.id = :id
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

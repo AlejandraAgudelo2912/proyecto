@@ -53,7 +53,7 @@ $libros = $basedatos->obtener_listado_Libros();
         <?php foreach ($libros as $libro): ?>
 
             <div class="bg-white rounded-2xl shadow hover:shadow-xl hover:scale-105 transition duration-300 overflow-hidden">
-
+                <a href="../src/views/verLibro.php?id=<?= $libro['id'] ?>">
                 <!-- Imagen -->
                 <?php if (!empty($libro['caratula'])): ?>
                     <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"
@@ -76,6 +76,7 @@ $libros = $basedatos->obtener_listado_Libros();
                     </p>
 
                 </div>
+                </a>
 
             </div>
 
