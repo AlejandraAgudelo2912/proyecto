@@ -29,6 +29,11 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
                    + Añadir
                 </a>
 
+                <a href="<?= BASE_URL ?>src/views/importarCSV.php" 
+                   class="hover:text-gray-200 transition font-medium">
+                   Importar CSV
+                </a>
+
                 <div class="flex items-center gap-3">
 
                     <span class="text-sm opacity-90">
