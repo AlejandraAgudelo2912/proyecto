@@ -1,24 +1,42 @@
 </main>
 </div>
 
-<footer class="w-full mt-16 bg-white border-t">
+<footer class="w-full mt-16 bg-white/80 backdrop-blur border-t border-gray-200">
 
-    <div class="max-w-6xl mx-auto px-6 py-8">
+    <div class="max-w-6xl mx-auto px-6 py-10">
 
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
 
-            <div class="text-gray-700 font-semibold text-lg">
-                Presta tu libro, comparte tu pasión
+            <!-- Marca -->
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Presta tu libro</h2>
+                <p class="text-gray-500 text-sm">
+                    Comparte historias, descubre mundos y deja de acumular libros como un dragón
+                </p>
             </div>
 
-            <div class="flex gap-6 text-sm text-gray-500">
-                <a href="<?= BASE_URL ?>public/index.php" class="hover:text-blue-600 transition">Inicio</a>
-                <a href="<?= BASE_URL ?>src/views/listadoLibros.php" class="hover:text-blue-600 transition">Libros</a>
-                <a href="#" class="hover:text-blue-600 transition">Contacto</a>
+            <!-- Links -->
+            <div class="flex justify-center gap-6 text-sm text-gray-500">
+                <a href="<?= BASE_URL ?>public/index.php" 
+                   class="hover:text-blue-600 transition">
+                   Inicio
+                </a>
+
+                <a href="<?= BASE_URL ?>src/views/listadoLibros.php" 
+                   class="hover:text-blue-600 transition">
+                   Libros
+                </a>
+
+                <a href="#" 
+                   class="hover:text-blue-600 transition">
+                   Contacto
+                </a>
             </div>
 
-            <div class="text-gray-400 text-sm">
-                © <?= date('Y') ?> Presta tu libro. Todos los derechos reservados.
+            <!-- Copyright -->
+            <div class="text-center md:text-right text-gray-400 text-sm">
+                © <?= date('Y') ?> Presta tu libro <br>
+                Hecho con 💙 y probablemente poco sueño
             </div>
 
         </div>

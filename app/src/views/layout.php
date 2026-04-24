@@ -7,11 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col bg-[#f5f3ef]">
 
-    <?php require __DIR__ . "/partials/navbar.php"; ?>
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="flex flex-1">
 
-    <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
+        <?php require __DIR__ . "/partials/sidebar.php"; ?>
 
-        <div class="bg-white shadow-lg rounded-2xl p-6">
+
+        <!-- CONTENIDO -->
+        <main class="flex-1 p-10">
 
