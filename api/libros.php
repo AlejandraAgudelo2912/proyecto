@@ -1,13 +1,13 @@
 <?php
 require __DIR__ . "/../app/vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\LibroModel;
 
 header('Content-Type: application/json');
 
-$db = new Basedatos();
+$libroModel = new LibroModel();
 
-$libros = $db->obtener_listado_Libros();
+$libros = $libroModel->obtener_listado_Libros();
 
 $resultado = [];
 

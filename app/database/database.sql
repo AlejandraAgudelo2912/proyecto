@@ -32,6 +32,31 @@ CREATE TABLE `prestamos` (
   FOREIGN KEY (id_libro) REFERENCES libros(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_libro INT,
+    id_usuario INT,
+    comentario TEXT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_libro) REFERENCES libros(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE valoraciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_libro INT,
+    id_usuario INT,
+    puntuacion INT,
+    comentario TEXT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE (id_libro, id_usuario),
+
+    FOREIGN KEY (id_libro) REFERENCES libros(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
 ALTER TABLE libros 
 ADD prestado BOOLEAN DEFAULT 0,
 ADD prestado_a INT NULL;

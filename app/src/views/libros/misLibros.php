@@ -3,18 +3,21 @@ session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 require __DIR__ . "/../layout.php";
 
-use App\Models\Basedatos;
+use App\Models\UsuarioModel;
+use App\Models\PrestamosModel;
 
 if (!isset($_SESSION["usuario"])) {
     header("Location: login.php");
     exit;
 }
 
-$db = new Basedatos();
+$usuarioModel = new UsuarioModel();
+$prestamosModel = new PrestamosModel();
+
 $idUsuario = $_SESSION['usuario']['id'];
 
-$misLibros = $db->obtenerLibrosPropios($idUsuario);
-$prestados = $db->obtenerLibrosPrestados($idUsuario);
+$misLibros = $usuarioModel->obtenerLibrosPropios($idUsuario);
+$prestados = $prestamosModel->obtenerLibrosPrestados($idUsuario);
 
 
 ?>

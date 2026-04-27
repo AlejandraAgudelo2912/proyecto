@@ -2,14 +2,14 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\LibroModel;
 
 if (!isset($_SESSION["usuario"])) {
     header("Location: login.php");
     exit;
 }
 
-$db = new Basedatos();
+$libroModel = new LibroModel();
 
 $titulo = $_POST['titulo'] ?? '';
 $autor = $_POST['autor'] ?? '';
@@ -43,7 +43,7 @@ if (empty($titulo) || empty($autor)) {
     exit;
 }
 
-$db->crearLibro($titulo, $autor, $genero, $anio, $id_usuario, $caratula);
+$libroModel->crearLibro($titulo, $autor, $genero, $anio, $id_usuario, $caratula);
 
 header("Location: listadoLibros.php");
 exit;

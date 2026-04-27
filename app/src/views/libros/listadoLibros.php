@@ -2,8 +2,9 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 use App\Models\Basedatos;
+use App\Models\LibroModel;
 
-$basedatos = new Basedatos();
+$libroModel = new LibroModel();
 
 if ($basedatos->getConexion() == null) {
     die("Error de conexión a la base de datos");
@@ -17,9 +18,9 @@ if (!isset($_SESSION["usuario"])) {
 $busqueda = $_GET['busqueda'] ?? '';
 
 if (!empty($busqueda)) {
-    $libros = $basedatos->buscarLibros($busqueda);
+    $libros = $libroModel->buscarLibros($busqueda);
 } else {
-    $libros = $basedatos->obtener_listado_Libros();
+    $libros = $libroModel->obtener_listado_Libros();
 }
 
 function resaltar($texto, $busqueda) {

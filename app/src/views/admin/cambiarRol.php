@@ -2,7 +2,7 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\UsuarioModel;
 
 if (!isset($_SESSION["usuario"]) || $_SESSION["usuario"]["rol"] !== 'admin') {
     die("Acceso denegado 💀");
@@ -19,9 +19,9 @@ if ($id == $_SESSION["usuario"]["id"] && $rol !== 'admin') {
     die("No puedes quitarte el admin");
 }
 
-$db = new Basedatos();
+$usuarioModel = new UsuarioModel();
 
-$db->cambiarRol($id, $rol);
+$usuarioModel->cambiarRol($id, $rol);
 
 header("Location: ../admin/admin.php");
 exit;

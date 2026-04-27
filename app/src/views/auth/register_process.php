@@ -2,10 +2,10 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\UsuarioModel;
 
 session_start();
-$db = new Basedatos();
+$usuarioModel = new UsuarioModel();
 
 $nombre = $_POST['nombre'] ?? '';
 $apellido1 = $_POST['apellido1'] ?? '';
@@ -34,7 +34,7 @@ if ($password !== $passwordConfirm) {
     exit;
 }
 
-if ($db->existeUsuario($email)) {
+if ($usuarioModel->existeUsuario($email)) {
     $_SESSION['error'] = "El email ya está registrado";
     $_SESSION['old_nombre'] = $nombre;
     $_SESSION['old_apellido1'] = $apellido1;
@@ -46,7 +46,7 @@ if ($db->existeUsuario($email)) {
 
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-$ok = $db->crearUsuario($nombre, $apellido1, $apellido2, $email, $passwordHash);
+$ok = $usuarioModel->crearUsuario($nombre, $apellido1, $apellido2, $email, $passwordHash);
 
 if (!$ok) {
     $_SESSION['error'] = "Error al registrar usuario";

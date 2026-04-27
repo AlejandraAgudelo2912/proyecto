@@ -2,7 +2,7 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\UsuarioModel;
 
 if (!isset($_SESSION["usuario"]) || $_SESSION["usuario"]["rol"] !== 'admin') {
     die("Acceso denegado 💀");
@@ -18,15 +18,15 @@ if ($id == $_SESSION["usuario"]["id"]) {
     die("No puedes eliminarte a ti mismo");
 }
 
-$db = new Basedatos();
+$usuarioModel = new UsuarioModel();
 
-if($db->usuarioTienePrestamos($id)) {
+if($usuarioModel->usuarioTienePrestamos($id)) {
     $_SESSION['error'] = "Este usuario tiene préstamos activos";
     header("Location: ../admin/admin.php");
     exit;
 }
 
-$db->eliminarUsuario($id);
+$usuarioModel->eliminarUsuario($id);
 
 header("Location: ../admin/admin.php");
 exit;

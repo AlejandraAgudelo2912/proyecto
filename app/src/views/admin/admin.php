@@ -3,18 +3,22 @@ session_start();
 require __DIR__ . "/../layout.php";
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\UsuarioModel;
+use App\Models\LibroModel;
+use App\Models\PrestamosModel;
 
 if (!isset($_SESSION["usuario"]) || $_SESSION["usuario"]["rol"] !== 'admin') {
     die("Acceso denegado. Solo los administradores pueden acceder a esta página.");
 }
 $_SESSION['error'] = $_SESSION['error'] ?? null;
 
-$db = new Basedatos();
+$usuarioModel = new UsuarioModel();
+$libroModel = new LibroModel();
+$prestamoModel = new PrestamosModel();
 
-$usuarios = $db->obtenerUsuarios();
-$libros = $db->obtener_listado_Libros();
-$prestamos = $db->obtenerPrestamos();
+$usuarios = $usuarioModel->obtenerUsuarios();
+$libros = $libroModel->obtener_listado_Libros();
+$prestamos = $prestamoModel->obtenerPrestamos();
 ?>
 
 <div class="max-w-7xl mx-auto">

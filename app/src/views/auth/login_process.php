@@ -1,10 +1,10 @@
 <?php
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\UsuarioModel;
 
 session_start();
-$basedatos = new Basedatos();
+$usuarioModel = new UsuarioModel();
 
 $email = $_POST["email"] ?? "";
 $password = $_POST["password"] ?? "";
@@ -16,7 +16,7 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
-$usuario = $basedatos->obtener_usuario_por_email($email);
+$usuario = $usuarioModel->obtener_usuario_por_email($email);
 if (!$usuario || !password_verify($password, $usuario["password"])) {
     $_SESSION["error"] = "Correo electrónico o contraseña incorrectos.";
     $_SESSION["old_email"] = $email;

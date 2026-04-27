@@ -3,15 +3,11 @@ session_start();
 require __DIR__ . "/../vendor/autoload.php";
 require __DIR__ . "/../src/views/layout.php";
 
-use App\Models\Basedatos;
+use App\Models\LibroModel;
 
-$basedatos = new Basedatos();
+$libroModel = new LibroModel();
 
-if ($basedatos->getConexion() == null) {
-    die("Error de conexión");
-}
-
-$libros = $basedatos->obtener_listado_Libros();
+$libros = $libroModel->obtener_listado_Libros();
 ?>
 
 <!-- HERO -->

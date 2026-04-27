@@ -3,7 +3,7 @@ session_start();
 
 require __DIR__ . "/../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\UsuarioModel;
 
 $client = new Google_Client();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
@@ -13,7 +13,7 @@ $client->setClientId($_ENV['GOOGLE_CLIENT_ID']);
 $client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
 $client->setRedirectUri($_ENV['GOOGLE_REDIRECT_URI']);
 
-$db = new Basedatos();
+$db = new UsuarioModel();
 
 if (isset($_GET['code'])) {
 

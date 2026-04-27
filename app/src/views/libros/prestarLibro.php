@@ -2,14 +2,14 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\PrestamosModel;
 
-$db = new Basedatos();
+$prestamosModel = new PrestamosModel();
 
 $idLibro = $_GET['id'];
 $idUsuario = $_SESSION['usuario']['id'];
 
-$db->prestarLibro($idLibro, $idUsuario);
+$prestamosModel->prestarLibro($idLibro, $idUsuario);
 
 header("Location: listadoLibros.php");
 exit;

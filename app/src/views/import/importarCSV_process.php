@@ -2,10 +2,9 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\LibroModel;
 
-$db = new Basedatos();
-$pdo = $db->getConexion();
+$libroModel = new LibroModel();
 
 $idUsuario = $_SESSION['usuario']['id'];
 $tipo = $_POST['tipo'] ?? 'csv';
@@ -30,7 +29,7 @@ if ($tipo === 'csv') {
         $anio = $data[3] ?? '';
 
         if ($titulo && $autor) {
-            $db->crearLibro($titulo, $autor, $genero, $anio, $idUsuario, null);
+            $libroModel->crearLibro($titulo, $autor, $genero, $anio, $idUsuario, null);
         }
     }
 
@@ -108,7 +107,7 @@ if ($tipo === 'zip') {
         }
 
         if ($titulo && $autor) {
-            $db->crearLibro($titulo, $autor, $genero, $anio, $idUsuario, $nombreFinal);
+            $libroModel->crearLibro($titulo, $autor, $genero, $anio, $idUsuario, $nombreFinal);
         }
     }
 

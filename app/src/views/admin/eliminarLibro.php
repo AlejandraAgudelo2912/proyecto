@@ -2,7 +2,7 @@
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
 
-use App\Models\Basedatos;
+use App\Models\LibroModel;
 
 if (!isset($_SESSION["usuario"]) || $_SESSION["usuario"]["rol"] !== 'admin') {
     die("Acceso denegado");
@@ -14,9 +14,9 @@ if (!$id) {
     die("ID no válido");
 }
 
-$db = new Basedatos();
+$libroModel = new LibroModel();
 
-$db->eliminarLibro($id);
+$libroModel->eliminarLibro($id);
 
 header("Location: ../admin/admin.php");
 exit;
