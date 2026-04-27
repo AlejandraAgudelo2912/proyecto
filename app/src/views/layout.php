@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <link rel="icon" type="image/svg+xml" href="/prestamo_de_libros/app/public/logo.svg">
     <meta charset="UTF-8">
     <title><?= $title ?? 'Préstamo de Libros' ?></title>
 
