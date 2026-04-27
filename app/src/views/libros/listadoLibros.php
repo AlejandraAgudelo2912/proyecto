@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../../../vendor/autoload.php";
 use App\Models\Basedatos;
 
 $basedatos = new Basedatos();
@@ -34,7 +34,7 @@ function resaltar($texto, $busqueda) {
     );
 }
 
-require __DIR__ . "/layout.php";?>
+require __DIR__ . "/../layout.php";?>
 
 <form method="GET" class="mb-8">
     <div class="flex items-center bg-white rounded-full shadow px-4 py-2 w-full">
@@ -144,4 +144,4 @@ require __DIR__ . "/layout.php";?>
 <?php endif; ?>
 
 
-<?php require __DIR__ . "/footer.php"; ?>
+<?php require __DIR__ . "/../footer.php"; ?>

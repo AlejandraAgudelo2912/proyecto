@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../../../vendor/autoload.php";
 
     session_start();
 
@@ -8,5 +8,5 @@ require __DIR__ . "/../../vendor/autoload.php";
 
     session_destroy();
 
-    header("Location: ../../public/index.php");
+    header("Location: ../../../public/index.php");
     exit;

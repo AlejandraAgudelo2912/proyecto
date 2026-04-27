@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../../../vendor/autoload.php";
 
 use App\Models\Basedatos;
 
@@ -46,7 +46,7 @@ if ($tipo === 'zip') {
 
     $tmpZip = $_FILES['zip']['tmp_name'];
 
-    $extractPath = __DIR__ . "/../../storage/tmp_" . time();
+    $extractPath = __DIR__ . "/../../../storage/tmp_" . time();
     mkdir($extractPath, 0777, true);
 
     $zip = new ZipArchive;
@@ -102,7 +102,7 @@ if ($tipo === 'zip') {
 
                 copy(
                     $rutaImagen,
-                    __DIR__ . "/../../public/uploads/" . $nombreFinal
+                    __DIR__ . "/../../../public/uploads/" . $nombreFinal
                 );
             }
         }

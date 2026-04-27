@@ -27,12 +27,12 @@ $libros = $basedatos->obtener_listado_Libros();
 
     <?php if (!isset($_SESSION["usuario"])): ?>
         <div class="flex justify-center gap-4">
-            <a href="<?= BASE_URL ?>src/views/login.php"
+            <a href="<?= BASE_URL ?>src/views/auth/login.php"
                class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition">
                 Iniciar sesión
             </a>
 
-            <a href="<?= BASE_URL ?>src/views/register.php"
+            <a href="<?= BASE_URL ?>src/views/auth/register.php"
                class="bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-xl shadow hover:bg-blue-50 transition">
                 Registrarse
             </a>
@@ -53,7 +53,7 @@ $libros = $basedatos->obtener_listado_Libros();
         <?php foreach ($libros as $libro): ?>
 
             <div class="bg-white rounded-2xl shadow hover:shadow-xl hover:scale-105 transition duration-300 overflow-hidden">
-                <a href="../src/views/verLibro.php?id=<?= $libro['id'] ?>">
+                <a href="../src/views/libros/verLibro.php?id=<?= $libro['id'] ?>">
                 <!-- Imagen -->
                 <?php if (!empty($libro['caratula'])): ?>
                     <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"

@@ -1,10 +1,10 @@
 <?php
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
-require __DIR__ . "/layout.php";
+require __DIR__ . "/../../../vendor/autoload.php";
+require __DIR__ . "/../layout.php";
 
 if (!isset($_SESSION["usuario"])) {
-    header("Location: " . BASE_URL . "/src/views/login.php");
+    header("Location: " . BASE_URL . "/src/views/libros/login.php");
     exit;
 }
 ?>
@@ -66,7 +66,7 @@ if (!isset($_SESSION["usuario"])) {
 
 </div>
 
-<?php require __DIR__ . "/footer.php"; ?>
+<?php require __DIR__ . "/../footer.php"; ?>
 
 <script>
 document.querySelector('input[name="caratula"]').addEventListener('change', function(e) {

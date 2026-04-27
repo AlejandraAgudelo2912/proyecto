@@ -1,7 +1,7 @@
 <?php
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
-require __DIR__ . "/layout.php";
+require __DIR__ . "/../../../vendor/autoload.php";
+require __DIR__ . "/../layout.php";
 
 if (!isset($_SESSION["usuario"])) {
     header("Location: login.php");
@@ -111,4 +111,4 @@ if (!isset($_SESSION["usuario"])) {
     });
 </script>
 
-<?php require __DIR__ . "/footer.php"; ?>
+<?php require __DIR__ . "/../footer.php"; ?>

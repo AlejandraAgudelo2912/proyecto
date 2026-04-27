@@ -1,7 +1,7 @@
 <?php
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
-require __DIR__ . "/layout.php";
+require __DIR__ . "/../../../vendor/autoload.php";
+require __DIR__ . "/../layout.php";
 
 use App\Models\Basedatos;
 
@@ -79,7 +79,7 @@ $loTengoYo = $libro['prestado_a'] == $_SESSION['usuario']['id'];
 
                     <a href="prestarLibro.php?id=<?= $libro['id'] ?>"
                        class="block text-center bg-green-500 text-white py-3 rounded-xl hover:bg-green-600 transition">
-                        📥 Coger libro
+                        Coger libro
                     </a>
 
                 <?php elseif ($estaPrestado && $loTengoYo): ?>
@@ -111,4 +111,4 @@ $loTengoYo = $libro['prestado_a'] == $_SESSION['usuario']['id'];
 
 </div>
 
-<?php require __DIR__ . "/footer.php"; ?>
+<?php require __DIR__ . "/../footer.php"; ?>

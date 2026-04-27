@@ -1,7 +1,7 @@
 <?php
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
-require __DIR__ . "/layout.php";
+require __DIR__ . "/../../../vendor/autoload.php";
+require __DIR__ . "/../layout.php";
 
 use App\Models\Basedatos;
 
@@ -116,4 +116,4 @@ $prestados = $db->obtenerLibrosPrestados($idUsuario);
 
 </div>
 
-<?php require __DIR__ . "/footer.php"; ?>
+<?php require __DIR__ . "/../footer.php"; ?>

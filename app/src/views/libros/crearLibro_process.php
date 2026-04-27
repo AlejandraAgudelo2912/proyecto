@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../../../vendor/autoload.php";
 
 use App\Models\Basedatos;
 
@@ -28,7 +28,7 @@ if (isset($_FILES['caratula']) && $_FILES['caratula']['error'] === UPLOAD_ERR_OK
     $extension = pathinfo($nombreOriginal, PATHINFO_EXTENSION);
     $nombreFinal = uniqid() . "." . $extension;
 
-    $rutaDestino = __DIR__ . "/../../public/uploads/" . $nombreFinal;
+    $rutaDestino = __DIR__ . "/../../../public/uploads/" . $nombreFinal;
 
     move_uploaded_file($tmp, $rutaDestino);
 

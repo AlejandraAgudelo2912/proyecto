@@ -18,22 +18,22 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
                Discover
             </a>
 
-            <a href="<?= BASE_URL ?>src/views/listadoLibros.php"
+            <a href="<?= BASE_URL ?>src/views/libros/listadoLibros.php"
                class="hover:text-blue-600 transition font-medium">
-               Libros
+               Buscar
             </a>
 
-            <a href="<?= BASE_URL ?>src/views/misLibros.php"
+            <a href="<?= BASE_URL ?>src/views/libros/misLibros.php"
                class="hover:text-blue-600 transition font-medium">
                Mis préstamos
             </a>
 
-            <a href="<?= BASE_URL ?>src/views/crearLibro.php"
+            <a href="<?= BASE_URL ?>src/views/libros/crearLibro.php"
                class="hover:text-blue-600 transition font-medium">
                Añadir
             </a>
 
-            <a href="<?= BASE_URL ?>src/views/importarCSV.php"
+            <a href="<?= BASE_URL ?>src/views/import/importarCSV.php"
                class="hover:text-blue-600 transition font-medium">
                Importar CSV
             </a>

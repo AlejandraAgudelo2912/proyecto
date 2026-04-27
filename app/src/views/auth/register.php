@@ -1,7 +1,7 @@
 <?php 
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
-require __DIR__ . "/layout.php";
+require __DIR__ . "/../../../vendor/autoload.php";
+require __DIR__ . "/../layout.php";
 ?>
 
 <div class="max-w-md mx-auto mt-10">

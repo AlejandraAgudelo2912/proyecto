@@ -1,7 +1,7 @@
 <?php 
 session_start();
-require __DIR__ . "/../../vendor/autoload.php";
-require __DIR__ . "/layout.php";
+require __DIR__ . "/../../../vendor/autoload.php";
+require __DIR__ . "/../layout.php";
 ?>
 
 <div class="max-w-md mx-auto mt-10">
@@ -54,7 +54,7 @@ require __DIR__ . "/layout.php";
     </div>
 
     <div class="flex justify-center">
-        <?php require __DIR__ . "/partials/boton_de_google.php"; ?>
+        <?php require __DIR__ . "/../partials/boton_de_google.php"; ?>
     </div>
 
     <p class="text-center text-sm text-gray-500 mt-6">
@@ -66,4 +66,4 @@ require __DIR__ . "/layout.php";
 
 </div>
 
-<?php require __DIR__ . "/footer.php"; ?>
+<?php require __DIR__ . "/../footer.php"; ?>
