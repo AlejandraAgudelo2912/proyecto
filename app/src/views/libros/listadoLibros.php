@@ -6,10 +6,6 @@ use App\Models\LibroModel;
 
 $libroModel = new LibroModel();
 
-if ($basedatos->getConexion() == null) {
-    die("Error de conexión a la base de datos");
-}
-
 if (!isset($_SESSION["usuario"])) {
     header("Location: login.php");
     exit();

@@ -96,4 +96,38 @@ class LibroModel {
         $stmt = $this->db->prepare("DELETE FROM libros WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    public function obtenerLibrosRecientes() {
+
+        $sql = "
+            SELECT libros.*, usuarios.nombre
+            FROM libros
+            INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+            ORDER BY libros.id DESC
+            LIMIT 5
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerLibrosMejorValorados() {
+
+        $sql = "
+            SELECT libros.*, usuarios.nombre, AVG(valoraciones.puntuacion) AS valoracion_media
+            FROM libros
+            INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+            LEFT JOIN valoraciones ON libros.id = valoraciones.id_libro
+            GROUP BY libros.id
+            ORDER BY valoracion_media DESC
+            LIMIT 5
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
