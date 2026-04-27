@@ -20,6 +20,12 @@ if ($id == $_SESSION["usuario"]["id"]) {
 
 $db = new Basedatos();
 
+if($db->usuarioTienePrestamos($id)) {
+    $_SESSION['error'] = "Este usuario tiene préstamos activos";
+    header("Location: ../admin/admin.php");
+    exit;
+}
+
 $db->eliminarUsuario($id);
 
 header("Location: ../admin/admin.php");

@@ -8,11 +8,13 @@ use App\Models\Basedatos;
 if (!isset($_SESSION["usuario"]) || $_SESSION["usuario"]["rol"] !== 'admin') {
     die("Acceso denegado. Solo los administradores pueden acceder a esta página.");
 }
+$_SESSION['error'] = $_SESSION['error'] ?? null;
 
 $db = new Basedatos();
 
 $usuarios = $db->obtenerUsuarios();
 $libros = $db->obtener_listado_Libros();
+$prestamos = $db->obtenerPrestamos();
 ?>
 
 <div class="max-w-7xl mx-auto">
@@ -43,6 +45,15 @@ $libros = $db->obtener_listado_Libros();
 
     </div>
 
+    <!-- ERROR -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="bg-red-100 text-red-600 p-4 rounded mb-6">
+            <?= $_SESSION['error'] ?>
+        </div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
+
     <!-- TABS -->
     <div class="flex gap-4 mb-6">
         <button id="btnUsuarios" onclick="mostrar('usuarios')" class="px-4 py-2 bg-blue-600 text-white rounded-lg">
@@ -50,6 +61,10 @@ $libros = $db->obtener_listado_Libros();
         </button>
         <button id="btnLibros" onclick="mostrar('libros')" class="px-4 py-2 bg-gray-200 rounded-lg">
             Libros
+        </button>
+
+        <button id="btnPrestamos" onclick="mostrar('prestamos')" class="px-4 py-2 bg-gray-200 rounded-lg" id="btnPrestamos">
+            Préstamos
         </button>
     </div>
 
@@ -168,6 +183,64 @@ $libros = $db->obtener_listado_Libros();
 
     </div>
 
+    <!-- PRESTAMOS -->
+    <div id="prestamos" style="display:none;">
+
+        <div class="bg-white rounded-2xl shadow overflow-hidden">
+
+            <table class="w-full text-sm">
+                <thead class="bg-gray-100 text-gray-600">
+                    <tr>
+                        <th class="p-3 text-left">Libro</th>
+                        <th class="p-3 text-left">Propietario</th>
+                        <th class="p-3 text-left">Prestado a</th>
+                        <th class="p-3 text-left">Fecha</th>
+                        <th class="p-3 text-left">Días</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($prestamos as $p): ?>
+
+                        <?php
+                            $dias = null;
+                            if ($p['fecha_prestamo']) {
+                                $inicio = new DateTime($p['fecha_prestamo']);
+                                $hoy = new DateTime();
+                                $dias = $hoy->diff($inicio)->days;
+                            }
+                        ?>
+
+                        <tr class="border-t hover:bg-gray-50">
+
+                            <td class="p-3 font-medium">
+                                <a href="../libros/verLibro.php?id=<?= $p["id"]?>"
+                                   class="hover:underline text-blue-600">
+                                    <?= $p['titulo'] ?>
+                                </a>
+                            </td>
+                            <td class="p-3"><?= $p['propietario'] ?></td>
+                            <td class="p-3"><?= $p['prestado_a'] ?></td>
+                            <td class="p-3"><?= $p['fecha_prestamo'] ?></td>
+
+                            <td class="p-3">
+                                <span class="text-sm 
+                                    <?= $dias > 14 ? 'text-red-500' : ($dias > 7 ? 'text-yellow-500' : 'text-green-500') ?>">
+                                    <?= $dias ?> días
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
 <script>
@@ -175,25 +248,27 @@ function mostrar(seccion) {
 
     document.getElementById("usuarios").style.display = "none";
     document.getElementById("libros").style.display = "none";
+    document.getElementById("prestamos").style.display = "none";
 
     document.getElementById(seccion).style.display = "block";
 
-    const btnUsuarios = document.getElementById("btnUsuarios");
-    const btnLibros = document.getElementById("btnLibros");
+    const botones = ["btnUsuarios", "btnLibros", "btnPrestamos"];
 
-    btnUsuarios.classList.remove("bg-blue-600", "text-white");
-    btnLibros.classList.remove("bg-blue-600", "text-white");
+    botones.forEach(id => {
+        const btn = document.getElementById(id);
+        btn.classList.remove("bg-blue-600", "text-white");
+        btn.classList.add("bg-gray-200");
+    });
 
-    btnUsuarios.classList.add("bg-gray-200");
-    btnLibros.classList.add("bg-gray-200");
+    const activo = {
+        usuarios: "btnUsuarios",
+        libros: "btnLibros",
+        prestamos: "btnPrestamos"
+    };
 
-    if (seccion === "usuarios") {
-        btnUsuarios.classList.remove("bg-gray-200");
-        btnUsuarios.classList.add("bg-blue-600", "text-white");
-    } else {
-        btnLibros.classList.remove("bg-gray-200");
-        btnLibros.classList.add("bg-blue-600", "text-white");
-    }
+    const btnActivo = document.getElementById(activo[seccion]);
+    btnActivo.classList.remove("bg-gray-200");
+    btnActivo.classList.add("bg-blue-600", "text-white");
 }
 </script>
 

@@ -260,4 +260,107 @@ class Basedatos{
         ]);
     }
 
+    public function obtenerPrestamos() {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            SELECT 
+                libros.id,
+                libros.titulo,
+                libros.fecha_prestamo,
+                u1.nombre AS propietario,
+                u2.nombre AS prestado_a
+            FROM libros
+            INNER JOIN usuarios u1 ON libros.id_usuario = u1.id
+            INNER JOIN usuarios u2 ON libros.prestado_a = u2.id
+            WHERE libros.prestado = 1
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function usuarioTienePrestamos($id) {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            SELECT COUNT(*) as total
+            FROM libros
+            WHERE id_usuario = :id OR prestado_a = :id
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado['total'] > 0;
+    }
+
+    public function crearComentario($idLibro, $idUsuario, $texto) {
+        $pdo = $this->getConexion();
+
+        $sql = "INSERT INTO comentarios (id_libro, id_usuario, comentario)
+                VALUES (:libro, :usuario, :comentario)";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            'libro' => $idLibro,
+            'usuario' => $idUsuario,
+            'comentario' => $texto
+        ]);
+    }
+
+    public function obtenerComentarios($idLibro) {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            SELECT comentarios.*, usuarios.nombre
+            FROM comentarios
+            INNER JOIN usuarios ON comentarios.id_usuario = usuarios.id
+            WHERE id_libro = :id
+            ORDER BY fecha DESC
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $idLibro]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function valorarLibro($idLibro, $idUsuario, $puntuacion) {
+        $pdo = $this->getConexion();
+
+        $sql = "
+            INSERT INTO valoraciones (id_libro, id_usuario, puntuacion)
+            VALUES (:libro, :usuario, :puntuacion)
+            ON DUPLICATE KEY UPDATE puntuacion = :puntuacion
+        ";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            'libro' => $idLibro,
+            'usuario' => $idUsuario,
+            'puntuacion' => $puntuacion
+        ]);
+    }
+
+    public function obtenerMediaValoraciones($idLibro) {
+        $pdo = $this->getConexion();
+
+        $stmt = $pdo->prepare("
+            SELECT AVG(puntuacion) as media
+            FROM valoraciones
+            WHERE id_libro = :id
+        ");
+
+        $stmt->execute(['id' => $idLibro]);
+
+        return round($stmt->fetch()['media'], 1);
+    }
+
 }
