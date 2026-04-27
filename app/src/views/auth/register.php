@@ -76,16 +76,16 @@ require __DIR__ . "/../layout.php";
     </div>
     
     <div class="flex justify-center">
-        <?php require __DIR__ . "/partials/boton_de_google.php"; ?>
+        <?php require __DIR__ . "/../partials/boton_de_google.php"; ?>
     </div>
 
     <p class="text-center text-sm text-gray-500 mt-6">
         ¿Ya tienes cuenta?
-        <a href="<?= BASE_URL ?>src/views/login.php" class="text-blue-600 font-medium hover:underline">
+        <a href="<?= BASE_URL ?>src/views/auth/login.php" class="text-blue-600 font-medium hover:underline">
             Inicia sesión
         </a>
     </p>
 
 </div>
 
-<?php require __DIR__ . "/footer.php"; ?>
+<?php require __DIR__ . "/../footer.php"; ?>

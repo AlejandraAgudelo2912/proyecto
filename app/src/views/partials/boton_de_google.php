@@ -1,5 +1,5 @@
 <div class="mt-6 flex justify-center">
-    <a href="app/../../../public/google_login.php"
+    <a href="../../../public/google_login.php"
        class="flex items-center gap-3 bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 transition">
 
         <!-- Logo Google -->

@@ -59,7 +59,7 @@ require __DIR__ . "/../layout.php";
 
     <p class="text-center text-sm text-gray-500 mt-6">
         ¿No tienes cuenta?
-        <a href="<?= BASE_URL ?>src/views/register.php" class="text-blue-600 font-medium hover:underline">
+        <a href="<?= BASE_URL ?>src/views/auth/register.php" class="text-blue-600 font-medium hover:underline">
             Regístrate
         </a>
     </p>

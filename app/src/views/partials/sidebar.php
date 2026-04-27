@@ -8,7 +8,7 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
     <!-- TOP -->
     <div>
         <h2 class="text-xl font-bold mb-8 flex items-center gap-2">
-            <span>Books</span>
+            <span>Libros</span>
         </h2>
 
         <nav class="flex flex-col gap-4 text-gray-600">
@@ -38,6 +38,19 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
                Importar CSV
             </a>
 
+
+            <!-- ADMINISTRACION -->
+            <?php if (isset($_SESSION["usuario"]) && $_SESSION["usuario"]["rol"] === 'admin'): ?>
+           
+                <div class="border-t my-4"></div>
+                <p class="text-gray-400 uppercase text-xs mb-2">Admin</p>
+                
+                <a href="<?= BASE_URL ?>src/views/admin/admin.php"
+                class="hover:text-blue-600 transition font-medium">
+                Panel Admin
+                </a>
+            <?php endif; ?>
+
         </nav>
     </div>
 
@@ -48,7 +61,7 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
                 <?= htmlspecialchars($_SESSION["usuario"]["nombre"]) ?>
             </p>
 
-            <a href="<?= BASE_URL ?>src/views/logout.php"
+            <a href="<?= BASE_URL ?>src/views/auth/logout.php"
                class="text-red-500 text-sm hover:underline">
                Cerrar sesión
             </a>

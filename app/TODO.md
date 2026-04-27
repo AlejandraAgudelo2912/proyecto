@@ -32,4 +32,8 @@
 - [ ] Para poder operar con la aplicación, hay que estar dado de alta en ella
 - [ ] Tratar con datos, tipo que las fechas sean verdaderas
 - [ ] Filtrar los resultados por libros disponibles y mios
+- [ ] Editar tus propios libros
+- [ ] NO BORRAR USUARIO CON PRÉSTAMOS
+- [ ] ENDPOINT API
+
 

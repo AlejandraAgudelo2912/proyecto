@@ -223,4 +223,41 @@ class Basedatos{
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerUsuarios() {
+        $pdo = $this->getConexion();
+
+        $sql = "SELECT id, nombre, email, rol FROM usuarios";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function eliminarLibro($id) {
+        $pdo = $this->getConexion();
+
+        $stmt = $pdo->prepare("DELETE FROM libros WHERE id = :id");
+        return $stmt->execute(['id' => $id]);
+    }
+
+    public function eliminarUsuario($id) {
+        $pdo = $this->getConexion();
+        $pdo->prepare("DELETE FROM libros WHERE id_usuario = :id")->execute(['id' => $id]);
+
+        $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = :id");
+        return $stmt->execute(['id' => $id]);
+    }
+
+    public function cambiarRol($id, $rol) {
+        $pdo = $this->getConexion();
+
+        $stmt = $pdo->prepare("UPDATE usuarios SET rol = :rol WHERE id = :id");
+
+        return $stmt->execute([
+            'rol' => $rol,
+            'id' => $id
+        ]);
+    }
+
 }
