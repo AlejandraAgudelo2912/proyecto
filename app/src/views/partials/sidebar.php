@@ -7,9 +7,16 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
 
     <!-- TOP -->
     <div>
-        <h2 class="text-xl font-bold mb-8 flex items-center gap-2">
-            <span>Libros</span>
-        </h2>
+        <div class="flex items-center gap-3 mb-2">
+
+            <img src="<?= BASE_URL ?>public/logo.svg"
+                class="w-10 h-10 object-contain">
+
+            <span class="text-2xl font-bold">
+                Libros
+            </span>
+
+        </div>
 
         <nav class="flex flex-col gap-4 text-gray-600">
 
