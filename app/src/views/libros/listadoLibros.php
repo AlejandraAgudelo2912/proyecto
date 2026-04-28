@@ -1,13 +1,17 @@
 <?php
 session_start();
 require __DIR__ . "/../../../vendor/autoload.php";
-use App\Models\Basedatos;
+
 use App\Models\LibroModel;
+use App\Models\PrestamosModel;
+
+$prestamoModel = new PrestamosModel();
 
 $libroModel = new LibroModel();
 
+
 if (!isset($_SESSION["usuario"])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -67,6 +71,10 @@ require __DIR__ . "/../layout.php";?>
                 $esPropio = $libro['id_usuario'] == $_SESSION['usuario']['id'];
                 $estaPrestado = $libro['prestado'];
                 $loTengoYo = $libro['prestado_a'] == $_SESSION['usuario']['id'];
+                $miSolicitud = $prestamoModel->obtenerSolicitudUsuario(
+                    $libro['id'],
+                    $_SESSION['usuario']['id']
+                );
             ?>
 
             <div class="bg-white rounded-2xl shadow-md p-4 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
@@ -101,12 +109,22 @@ require __DIR__ . "/../layout.php";?>
                 <!-- Botones -->
                 <div class="mt-4">
 
-                    <?php if (!$estaPrestado && !$esPropio): ?>
+                   <?php if (!$estaPrestado && !$esPropio): ?>
 
-                        <a href="prestarLibro.php?id=<?= $libro['id'] ?>"
-                           class="block text-center bg-green-100 text-green-700 px-3 py-2 rounded-xl text-sm hover:bg-green-200 transition">
-                            Coger
-                        </a>
+                        <?php if ($miSolicitud && $miSolicitud['estado'] == 'pendiente'): ?>
+
+                            <span class="block text-center bg-yellow-100 text-yellow-700 px-3 py-2 rounded-xl text-sm">
+                                ⏳ Solicitud enviada
+                            </span>
+
+                        <?php else: ?>
+
+                            <a href="prestarLibro.php?id=<?= $libro['id'] ?>"
+                            class="block text-center bg-green-100 text-green-700 px-3 py-2 rounded-xl text-sm hover:bg-green-200 transition">
+                                Solicitar
+                            </a>
+
+                        <?php endif; ?>
 
                     <?php elseif ($estaPrestado && $loTengoYo): ?>
 

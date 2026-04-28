@@ -4,7 +4,7 @@ require __DIR__ . "/../../../vendor/autoload.php";
 require __DIR__ . "/../layout.php";
 
 if (!isset($_SESSION["usuario"])) {
-    header("Location: " . BASE_URL . "/src/views/libros/login.php");
+    header("Location: " . BASE_URL . "/src/views/auth/login.php");
     exit;
 }
 ?>

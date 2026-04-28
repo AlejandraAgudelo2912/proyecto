@@ -4,7 +4,7 @@ require __DIR__ . "/../../../vendor/autoload.php";
 require __DIR__ . "/../layout.php";
 
 if (!isset($_SESSION["usuario"])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 ?>

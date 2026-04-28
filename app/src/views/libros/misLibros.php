@@ -7,7 +7,7 @@ use App\Models\UsuarioModel;
 use App\Models\PrestamosModel;
 
 if (!isset($_SESSION["usuario"])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit;
 }
 
@@ -18,6 +18,9 @@ $idUsuario = $_SESSION['usuario']['id'];
 
 $misLibros = $usuarioModel->obtenerLibrosPropios($idUsuario);
 $prestados = $prestamosModel->obtenerLibrosPrestados($idUsuario);
+$pendientes = $prestamosModel->obtenerSolicitudesPendientes($idUsuario);
+$aceptados = $prestamosModel->obtenerSolicitudesAceptadas($idUsuario);
+$rechazados = $prestamosModel->obtenerSolicitudesRechazadas($idUsuario);
 
 
 ?>
@@ -116,6 +119,113 @@ $prestados = $prestamosModel->obtenerLibrosPrestados($idUsuario);
 
         <?php endif; ?>
     </div>
+
+    <!-- SOLICITUDES PENDIENTES -->
+    <div>
+        <h2 class="text-2xl font-semibold mb-4">📨 Solicitudes pendientes</h2>
+
+        <?php if (empty($pendientes)): ?>
+            <p class="text-gray-500">No tienes solicitudes pendientes</p>
+        <?php else: ?>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <?php foreach ($pendientes as $libro): ?>
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                        <a href="verLibro.php?id=<?= $libro['id'] ?>">
+
+                            <?php if ($libro['caratula']): ?>
+                                <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"
+                                    class="w-full h-40 object-cover rounded mb-2">
+                            <?php endif; ?>
+
+                            <h3 class="font-bold"><?= htmlspecialchars($libro['titulo']) ?></h3>
+                            <p class="text-sm text-gray-500"><?= htmlspecialchars($libro['autor']) ?></p>
+
+                            <span class="text-sm text-gray-400">
+                                Solicitado por: <?= htmlspecialchars($libro['nombre']) ?>
+                            </span>
+
+                            <p class="text-xs text-yellow-500">
+                                Pendiente de aceptar/rechazar
+                            </p>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+        <!-- SOLICITUDES ACEPTADAS -->
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">✅ Solicitudes aceptadas</h2>
+    
+            <?php if (empty($aceptados)): ?>
+                <p class="text-gray-500">No tienes solicitudes aceptadas</p>
+            <?php else: ?>
+    
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <?php foreach ($aceptados as $libro): ?>
+                        <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                            <a href="verLibro.php?id=<?= $libro['id'] ?>">
+    
+                                <?php if ($libro['caratula']): ?>
+                                    <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"
+                                        class="w-full h-40 object-cover rounded mb-2">
+                                <?php endif; ?>
+    
+                                <h3 class="font-bold"><?= htmlspecialchars($libro['titulo']) ?></h3>
+                                <p class="text-sm text-gray-500"><?= htmlspecialchars($libro['autor']) ?></p>
+    
+                                <span class="text-sm text-gray-400">
+                                    Solicitado por: <?= htmlspecialchars($libro['nombre']) ?>
+                                </span>
+    
+                                <p class="text-xs text-green-500">
+                                    Solicitud aceptada
+                                </p>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- SOLICITUDES RECHAZADAS -->
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">❌ Solicitudes rechazadas</h2>
+    
+            <?php if (empty($rechazados)): ?>
+                <p class="text-gray-500">No tienes solicitudes rechazadas</p>
+            <?php else: ?>
+    
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <?php foreach ($rechazados as $libro): ?>
+                        <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+                            <a href="verLibro.php?id=<?= $libro['id'] ?>">
+    
+                                <?php if ($libro['caratula']): ?>
+                                    <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"
+                                        class="w-full h-40 object-cover rounded mb-2">
+                                <?php endif; ?>
+    
+                                <h3 class="font-bold"><?= htmlspecialchars($libro['titulo']) ?></h3>
+                                <p class="text-sm text-gray-500"><?= htmlspecialchars($libro['autor']) ?></p>
+    
+                                <span class="text-sm text-gray-400">
+                                    Solicitado por: <?= htmlspecialchars($libro['nombre']) ?>
+                                </span>
+    
+                                <p class="text-xs text-red-500">
+                                    Solicitud rechazada
+                                </p>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+
 
 </div>
 

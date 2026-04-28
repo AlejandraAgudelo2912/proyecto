@@ -6,9 +6,12 @@ require __DIR__ . "/../layout.php";
 use App\Models\LibroModel;
 use App\Models\ComentarioModel;
 use App\Models\ValoracionModel;
+use App\Models\PrestamosModel;
+
+$prestamoModel = new PrestamosModel();
 
 if (!isset($_SESSION["usuario"])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit;
 }
 
@@ -40,6 +43,10 @@ $miValoracion = $valoracionModel->obtenerValoracionUsuario(
 $esPropio = $libro['id_usuario'] == $_SESSION['usuario']['id'];
 $estaPrestado = $libro['prestado'];
 $loTengoYo = $libro['prestado_a'] == $_SESSION['usuario']['id'];
+$miSolicitud = $prestamoModel->obtenerSolicitudUsuario(
+    $libro['id'],
+    $_SESSION['usuario']['id']
+);
 ?>
 
 <div class="max-w-5xl mx-auto">
@@ -93,11 +100,20 @@ $loTengoYo = $libro['prestado_a'] == $_SESSION['usuario']['id'];
 
                 <?php if (!$estaPrestado && !$esPropio): ?>
 
-                    <a href="prestarLibro.php?id=<?= $libro['id'] ?>"
-                       class="block text-center bg-green-500 text-white py-3 rounded-xl hover:bg-green-600 transition">
-                        Coger libro
-                    </a>
+                    <?php if ($miSolicitud && $miSolicitud['estado'] == 'pendiente'): ?>
 
+                        <div class="bg-yellow-100 text-yellow-700 text-center py-3 rounded-xl">
+                            ⏳ Solicitud enviada
+                        </div>
+
+                    <?php else: ?>
+
+                        <a href="prestarLibro.php?id=<?= $libro['id'] ?>"
+                        class="block text-center bg-green-500 text-white py-3 rounded-xl hover:bg-green-600 transition">
+                            Solicitar libro
+                        </a>
+
+                    <?php endif; ?>
                 <?php elseif ($estaPrestado && $loTengoYo): ?>
 
                     <a href="devolverLibro.php?id=<?= $libro['id'] ?>"
