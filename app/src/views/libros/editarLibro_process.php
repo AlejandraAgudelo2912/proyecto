@@ -23,7 +23,27 @@ if ($libro['id_usuario'] != $_SESSION['usuario']['id']) {
     die("No tienes permisos 💀");
 }
 
-$libroModel->actualizarLibro($id, $titulo, $autor, $genero, $anio);
+$nombreImagen = $libro['caratula'];
+
+if (!empty($_FILES['caratula']['name'])) {
+
+    $archivo = $_FILES['caratula'];
+
+    $nombreImagen = time() . "_" . $archivo['name'];
+
+    $rutaDestino = __DIR__ . "/../../../public/uploads/" . $nombreImagen;
+
+    move_uploaded_file($archivo['tmp_name'], $rutaDestino);
+}
+
+$libroModel->actualizarLibroConImagen(
+    $id,
+    $titulo,
+    $autor,
+    $genero,
+    $anio,
+    $nombreImagen
+);
 
 header("Location: verLibro.php?id=" . $id);
 exit;

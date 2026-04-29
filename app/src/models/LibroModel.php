@@ -131,13 +131,14 @@ class LibroModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function actualizarLibro($id, $titulo, $autor, $genero, $anio) {
+    public function actualizarLibroConImagen($id, $titulo, $autor, $genero, $anio, $caratula) {
 
         $sql = "UPDATE libros 
                 SET titulo = :titulo,
                     autor = :autor,
                     genero = :genero,
-                    anio = :anio
+                    anio = :anio,
+                    caratula = :caratula
                 WHERE id = :id";
 
         $stmt = $this->db->prepare($sql);
@@ -147,6 +148,7 @@ class LibroModel {
             'autor' => $autor,
             'genero' => $genero,
             'anio' => $anio,
+            'caratula' => $caratula,
             'id' => $id
         ]);
     }
