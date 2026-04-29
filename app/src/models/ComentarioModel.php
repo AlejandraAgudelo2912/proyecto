@@ -42,4 +42,25 @@ class ComentarioModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function editarComentario($idComentario, $idUsuario, $nuevoTexto) {
+        $sql = "UPDATE comentarios
+                SET comentario = :comentario
+                WHERE id = :id AND id_usuario = :usuario";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            'comentario' => $nuevoTexto,
+            'id' => $idComentario,
+            'usuario' => $idUsuario
+        ]);
+    }
+
+    public function obtenerComentarioPorId($idComentario) {
+        $sql = "SELECT * FROM comentarios WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['id' => $idComentario]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
