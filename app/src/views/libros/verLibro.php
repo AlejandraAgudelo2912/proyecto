@@ -129,8 +129,17 @@ $miSolicitud = $prestamoModel->obtenerSolicitudUsuario(
 
                 <?php else: ?>
 
-                    <div class="bg-gray-100 text-gray-600 text-center py-3 rounded-xl">
-                        Este libro es tuyo
+                    <div class="space-y-3">
+
+                        <div class="bg-gray-100 text-gray-600 text-center py-3 rounded-xl">
+                            Este libro es tuyo
+                        </div>
+
+                        <a href="<?= BASE_URL ?>src/views/libros/editarLibro.php?id=<?= $libro['id'] ?>"
+                        class="block text-center bg-yellow-500 text-white py-3 rounded-xl hover:bg-yellow-600 transition">
+                            Editar libro
+                        </a>
+
                     </div>
 
                 <?php endif; ?>
