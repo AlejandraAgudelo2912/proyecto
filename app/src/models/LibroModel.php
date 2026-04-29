@@ -92,7 +92,19 @@ class LibroModel {
 
     public function eliminarLibro($id) {
 
-        $stmt = $this->db->prepare("DELETE FROM libros WHERE id = :id");
+        $sqlCheck = "SELECT COUNT(*) FROM prestamos WHERE id_libro = :id";
+        $stmtCheck = $this->db->prepare($sqlCheck);
+        $stmtCheck->execute(['id' => $id]);
+
+        $tienePrestamos = $stmtCheck->fetchColumn();
+
+        if ($tienePrestamos > 0) {
+            return false;
+        }
+
+        $sql = "DELETE FROM libros WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+
         return $stmt->execute(['id' => $id]);
     }
 

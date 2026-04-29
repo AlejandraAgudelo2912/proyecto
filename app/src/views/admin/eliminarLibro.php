@@ -16,7 +16,13 @@ if (!$id) {
 
 $libroModel = new LibroModel();
 
-$libroModel->eliminarLibro($id);
+$resultado = $libroModel->eliminarLibro($_GET['id']);
+
+if (!$resultado) {
+    $_SESSION['error'] = "No puedes borrar este libro porque tiene préstamos asociados";
+} else {
+    $_SESSION['error'] = "Libro eliminado correctamente";
+}
 
 header("Location: ../admin/admin.php");
 exit;
