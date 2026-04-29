@@ -26,6 +26,7 @@
 - [x] Logo
 - [x] Editar tus propios libros
 - [x] Editar tus propias valoraciones
+- [X] Eliminar tus propios comentarios
 
 ---
 

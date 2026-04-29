@@ -200,6 +200,11 @@ $miSolicitud = $prestamoModel->obtenerSolicitudUsuario(
                             Editar valoración
                         </a>
 
+                        <a href="<?= BASE_URL ?>src/views/libros/eliminarValoracion.php?id=<?= $libro['id'] ?>"
+                           class="inline-block mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                            Eliminar valoración
+                        </a>
+
                     </div>
 
                 <?php else: ?>
@@ -329,7 +334,13 @@ $miSolicitud = $prestamoModel->obtenerSolicitudUsuario(
                                     Editar comentario
                                 </a>
 
+                                <a href="<?= BASE_URL ?>src/views/comentarios/eliminarComentario.php?id=<?= $c['id'] ?>&id_libro=<?= $c['id_libro'] ?>"
+                                class="inline-block mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                                    Eliminar comentario
+                                </a>
+
                             </div>
+
                         <?php continue; ?>
                     <?php endif; ?>
 

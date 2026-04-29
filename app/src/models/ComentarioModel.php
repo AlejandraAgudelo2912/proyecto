@@ -63,4 +63,13 @@ class ComentarioModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function eliminarComentario($idComentario, $idUsuario) {
+        $sql = "DELETE FROM comentarios WHERE id = :id AND id_usuario = :usuario";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            'id' => $idComentario,
+            'usuario' => $idUsuario
+        ]);
+    }
+
 }

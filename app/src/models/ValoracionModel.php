@@ -94,5 +94,14 @@ class ValoracionModel {
         ]);
     }
 
+    public function eliminarValoracion($idLibro, $idUsuario) {
+        $sql = "DELETE FROM valoraciones WHERE id_libro = :libro AND id_usuario = :usuario";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            'libro' => $idLibro,
+            'usuario' => $idUsuario
+        ]);
+    }
+
 
 }
