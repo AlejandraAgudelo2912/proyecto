@@ -76,5 +76,23 @@ class ValoracionModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function editarValoracion($idLibro, $idUsuario, $puntuacion, $comentario) {
+
+        $sql = "
+            UPDATE valoraciones
+            SET puntuacion = :puntuacion, comentario = :comentario, fecha = NOW()
+            WHERE id_libro = :libro AND id_usuario = :usuario
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            'libro' => $idLibro,
+            'usuario' => $idUsuario,
+            'puntuacion' => $puntuacion,
+            'comentario' => $comentario ?? ''
+        ]);
+    }
+
 
 }
