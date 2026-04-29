@@ -32,7 +32,6 @@ class LibroModel {
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        logger()->info("Listado de libros obtenido correctamente");
         return $libros;
     }
 
@@ -151,5 +150,25 @@ class LibroModel {
             'caratula' => $caratula,
             'id' => $id
         ]);
+    }
+
+    public function obtenerGeneros() {
+
+        $sql = "SELECT DISTINCT genero FROM libros ORDER BY genero ASC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function obtenerLibrosPorGenero($genero) {
+
+        $sql = "SELECT * FROM libros WHERE genero = :genero";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['genero' => $genero]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

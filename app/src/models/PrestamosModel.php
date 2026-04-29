@@ -260,6 +260,28 @@ class PrestamosModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerPrestamosPorEstado($estado) {
+
+        $sql = "
+            SELECT 
+                p.*,
+                l.titulo,
+                u1.nombre AS propietario,
+                u2.nombre AS solicitante
+            FROM prestamos p
+            INNER JOIN libros l ON p.id_libro = l.id
+            INNER JOIN usuarios u1 ON l.id_usuario = u1.id
+            INNER JOIN usuarios u2 ON p.id_usuario = u2.id
+            WHERE p.estado = :estado
+            ORDER BY p.fecha_prestamo DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['estado' => $estado]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 
 

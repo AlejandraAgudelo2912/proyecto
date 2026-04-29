@@ -18,7 +18,9 @@ $prestamoModel = new PrestamosModel();
 
 $usuarios = $usuarioModel->obtenerUsuarios();
 $libros = $libroModel->obtener_listado_Libros();
-$prestamos = $prestamoModel->obtenerPrestamos();
+$pendientes = $prestamoModel->obtenerPrestamosPorEstado('pendiente');
+$aceptados = $prestamoModel->obtenerPrestamosPorEstado('aceptado');
+$rechazados = $prestamoModel->obtenerPrestamosPorEstado('rechazado');
 ?>
 
 <div class="max-w-7xl mx-auto">
@@ -190,21 +192,80 @@ $prestamos = $prestamoModel->obtenerPrestamos();
     <!-- PRESTAMOS -->
     <div id="prestamos" style="display:none;">
 
-        <div class="bg-white rounded-2xl shadow overflow-hidden">
+    <!-- PENDIENTES -->
+    <h2 class="text-xl font-bold mb-3"> Pendientes</h2>
 
-            <table class="w-full text-sm">
-                <thead class="bg-gray-100 text-gray-600">
+    <div class="bg-white rounded-2xl shadow overflow-hidden mb-8">
+
+        <table class="w-full text-sm">
+            <thead class="bg-yellow-100 text-yellow-700">
+                <tr>
+                    <th class="p-3 text-left">Libro</th>
+                    <th class="p-3 text-left">Solicitante</th>
+                    <th class="p-3 text-left">Fecha</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if (empty($pendientes)): ?>
                     <tr>
-                        <th class="p-3 text-left">Libro</th>
-                        <th class="p-3 text-left">Propietario</th>
-                        <th class="p-3 text-left">Prestado a</th>
-                        <th class="p-3 text-left">Fecha</th>
-                        <th class="p-3 text-left">Días</th>
+                        <td colspan="3" class="p-4 text-gray-500 text-center">
+                            No hay solicitudes pendientes
+                        </td>
                     </tr>
-                </thead>
+                <?php else: ?>
 
-                <tbody>
-                    <?php foreach ($prestamos as $p): ?>
+                    <?php foreach ($pendientes as $p): ?>
+                        <tr class="border-t hover:bg-yellow-50">
+
+                            <td class="p-3 font-medium">
+                                <a href="../libros/verLibro.php?id=<?= $p["id_libro"] ?>"
+                                   class="text-blue-600 hover:underline">
+                                    <?= $p['titulo'] ?>
+                                </a>
+                            </td>
+
+                            <td class="p-3"><?= $p['solicitante'] ?></td>
+
+                            <td class="p-3"><?= $p['fecha_prestamo'] ?? '-' ?></td>
+
+                        </tr>
+                    <?php endforeach; ?>
+
+                <?php endif; ?>
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ACEPTADOS -->
+    <h2 class="text-xl font-bold mb-3">Aceptados</h2>
+
+    <div class="bg-white rounded-2xl shadow overflow-hidden mb-8">
+
+        <table class="w-full text-sm">
+            <thead class="bg-green-100 text-green-700">
+                <tr>
+                    <th class="p-3 text-left">Libro</th>
+                    <th class="p-3 text-left">Propietario</th>
+                    <th class="p-3 text-left">Prestado a</th>
+                    <th class="p-3 text-left">Fecha</th>
+                    <th class="p-3 text-left">Días</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if (empty($aceptados)): ?>
+                    <tr>
+                        <td colspan="5" class="p-4 text-gray-500 text-center">
+                            No hay préstamos activos
+                        </td>
+                    </tr>
+                <?php else: ?>
+
+                    <?php foreach ($aceptados as $p): ?>
 
                         <?php
                             $dias = null;
@@ -215,21 +276,24 @@ $prestamos = $prestamoModel->obtenerPrestamos();
                             }
                         ?>
 
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr class="border-t hover:bg-green-50">
 
                             <td class="p-3 font-medium">
-                                <a href="../libros/verLibro.php?id=<?= $p["id"]?>"
-                                   class="hover:underline text-blue-600">
+                                <a href="../libros/verLibro.php?id=<?= $p["id_libro"] ?>"
+                                   class="text-blue-600 hover:underline">
                                     <?= $p['titulo'] ?>
                                 </a>
                             </td>
+
                             <td class="p-3"><?= $p['propietario'] ?></td>
-                            <td class="p-3"><?= $p['prestado_a'] ?></td>
+
+                            <td class="p-3"><?= $p['solicitante'] ?></td>
+
                             <td class="p-3"><?= $p['fecha_prestamo'] ?></td>
 
                             <td class="p-3">
-                                <span class="text-sm 
-                                    <?= $dias > 14 ? 'text-red-500' : ($dias > 7 ? 'text-yellow-500' : 'text-green-500') ?>">
+                                <span class="
+                                    <?= $dias > 14 ? 'text-red-500' : ($dias > 7 ? 'text-yellow-500' : 'text-green-600') ?>">
                                     <?= $dias ?> días
                                 </span>
                             </td>
@@ -237,13 +301,65 @@ $prestamos = $prestamoModel->obtenerPrestamos();
                         </tr>
 
                     <?php endforeach; ?>
-                </tbody>
 
-            </table>
+                <?php endif; ?>
+            </tbody>
 
-        </div>
+        </table>
 
     </div>
+
+
+    <!--RECHAZADOS -->
+    <h2 class="text-xl font-bold mb-3">Rechazados</h2>
+
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+
+        <table class="w-full text-sm">
+            <thead class="bg-red-100 text-red-700">
+                <tr>
+                    <th class="p-3 text-left">Libro</th>
+                    <th class="p-3 text-left">Solicitante</th>
+                    <th class="p-3 text-left">Fecha</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if (empty($rechazados)): ?>
+                    <tr>
+                        <td colspan="3" class="p-4 text-gray-500 text-center">
+                            No hay solicitudes rechazadas
+                        </td>
+                    </tr>
+                <?php else: ?>
+
+                    <?php foreach ($rechazados as $p): ?>
+
+                        <tr class="border-t hover:bg-red-50">
+
+                            <td class="p-3 font-medium">
+                                <a href="../libros/verLibro.php?id=<?= $p["id_libro"] ?>"
+                                   class="text-blue-600 hover:underline">
+                                    <?= $p['titulo'] ?>
+                                </a>
+                            </td>
+
+                            <td class="p-3"><?= $p['solicitante'] ?></td>
+
+                            <td class="p-3"><?= $p['fecha_prestamo'] ?? '-' ?></td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                <?php endif; ?>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 </div>
 

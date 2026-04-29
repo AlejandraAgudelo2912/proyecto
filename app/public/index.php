@@ -10,6 +10,7 @@ $libroModel = new LibroModel();
 $libros = $libroModel->obtener_listado_Libros();
 $recientes = $libroModel->obtenerLibrosRecientes();
 $top = $libroModel->obtenerLibrosMejorValorados();
+$generos = $libroModel->obtenerGeneros();
 ?>
 
 <!-- HERO -->
@@ -19,9 +20,10 @@ $top = $libroModel->obtenerLibrosMejorValorados();
         Descubre libros
     </h1>
 
-    <p class="text-gray-500 text-lg mb-8">
+    <p class="text-gray-500 text-lg mb-6">
         Explora, comparte y encuentra tu próxima lectura
     </p>
+
 
     <?php if (!isset($_SESSION["usuario"])): ?>
         <div class="flex justify-center gap-4">
@@ -119,6 +121,64 @@ $top = $libroModel->obtenerLibrosMejorValorados();
 
     </div>
 
+    <div class="border-t border-gray-200 my-10"></div>
+
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">
+        Explorar por géneros
+    </h2>
+
+    <?php foreach ($generos as $genero): ?>
+
+        <?php 
+            $librosGenero = $libroModel->obtenerLibrosPorGenero($genero);
+            if (empty($librosGenero)) continue;
+        ?>
+
+        <div class="mb-10">
+
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">
+                <?= htmlspecialchars($genero) ?>
+            </h3>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-6">
+
+                <?php foreach ($librosGenero as $libro): ?>
+
+                    <div class="bg-white rounded-2xl shadow hover:shadow-xl hover:scale-105 transition duration-300 overflow-hidden">
+                        <a href="../src/views/libros/verLibro.php?id=<?= $libro['id'] ?>">
+
+                            <?php if (!empty($libro['caratula'])): ?>
+                                <img src="<?= BASE_URL ?>public/uploads/<?= $libro['caratula'] ?>"
+                                    class="w-full h-48 object-cover">
+                            <?php else: ?>
+                                <div class="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                                    Sin imagen
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="p-3">
+                                <h3 class="font-semibold text-sm truncate">
+                                    <?= htmlspecialchars($libro['titulo']) ?>
+                                </h3>
+
+                                <p class="text-xs text-gray-500 truncate">
+                                    <?= htmlspecialchars($libro['autor']) ?>
+                                </p>
+                            </div>
+
+                        </a>
+                    </div>
+
+                <?php endforeach; ?>
+
+            </div>
+
+        </div>
+
+    <?php endforeach; ?>
+
 </div>
+
+
 
 <?php require __DIR__ . "/../src/views/footer.php"; ?>
