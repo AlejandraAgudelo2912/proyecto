@@ -11,7 +11,7 @@ class LibroModel {
         $this->db = (new Basedatos())->getConexion();
     }
 
-    public function obtener_listado_Libros() {
+    public function obtener_listado_Libros($orden = '', $disponibilidad = '') {
 
         $sql = "
             SELECT 
@@ -27,11 +27,26 @@ class LibroModel {
                 usuarios.nombre
                 FROM libros
                 INNER JOIN usuarios ON libros.id_usuario = usuarios.id
+                WHERE 1=1
             ";
-                
+
+        if ($disponibilidad === 'disponible') {
+            $sql .= " AND libros.prestado = 0";
+        } elseif ($disponibilidad === 'prestado') {
+            $sql .= " AND libros.prestado = 1";
+        }     
+
+
+        if ($orden === 'titulo') {
+            $sql .= " ORDER BY libros.titulo ASC";
+        } elseif ($orden === 'anio') {
+            $sql .= " ORDER BY libros.anio DESC";
+        }
+     
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         return $libros;
     }
 
@@ -52,19 +67,30 @@ class LibroModel {
         ]);
     }
 
-    public function buscarLibros($busqueda) {
+    public function buscarLibros($busqueda, $orden = '', $disponibilidad = '') {
 
         $sql = "
             SELECT libros.*, usuarios.nombre
             FROM libros
             INNER JOIN usuarios ON libros.id_usuario = usuarios.id
             WHERE 
-                libros.titulo LIKE :busqueda OR
+                (libros.titulo LIKE :busqueda OR
                 libros.autor LIKE :busqueda OR
                 libros.genero LIKE :busqueda OR
                 libros.anio LIKE :busqueda OR
-                usuarios.nombre LIKE :busqueda
+                usuarios.nombre LIKE :busqueda)
         ";
+        if ($disponibilidad === 'disponible') {
+            $sql .= " AND libros.prestado = 0";
+        } elseif ($disponibilidad === 'prestado') {
+            $sql .= " AND libros.prestado = 1";
+        }
+
+        if ($orden === 'titulo') {
+            $sql .= " ORDER BY libros.titulo ASC";
+        } elseif ($orden === 'anio') {
+            $sql .= " ORDER BY libros.anio DESC";
+        }
 
         $stmt = $this->db->prepare($sql);
 

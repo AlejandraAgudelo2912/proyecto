@@ -16,11 +16,13 @@ if (!isset($_SESSION["usuario"])) {
 }
 
 $busqueda = $_GET['busqueda'] ?? '';
+$orden = $_GET['orden'] ?? '';
+$disponibilidad = $_GET['disponibilidad'] ?? '';
 
 if (!empty($busqueda)) {
-    $libros = $libroModel->buscarLibros($busqueda);
+    $libros = $libroModel->buscarLibros($busqueda, $orden, $disponibilidad);
 } else {
-    $libros = $libroModel->obtener_listado_Libros();
+    $libros = $libroModel->obtener_listado_Libros($orden, $disponibilidad);
 }
 
 function resaltar($texto, $busqueda) {
@@ -37,21 +39,51 @@ function resaltar($texto, $busqueda) {
 
 require __DIR__ . "/../layout.php";?>
 
-<form method="GET" class="mb-8">
+<form id="formBusqueda" class="mb-8">
     <div class="flex items-center bg-white rounded-full shadow px-4 py-2 w-full">
         <input type="text" name="busqueda"
-               placeholder="Buscar libros..."
-               class="flex-1 outline-none bg-transparent px-2"
-               value="<?= htmlspecialchars($busqueda) ?>">
+                id="busquedaInput"
+                placeholder="Buscar libros..."
+                class="flex-1 outline-none bg-transparent px-2"
+                value="<?= htmlspecialchars($busqueda) ?>">
 
         <button class="bg-blue-600 text-white px-4 py-1 rounded-full hover:bg-blue-700 transition">
             Buscar
         </button>
+
+        <a href="?" class="ml-4 text-gray-500 hover:text-gray-700 transition">
+            Limpiar
+        </a>
+
+        <?php $orden = $_GET['orden'] ?? ''; ?>
+
+        <select name="orden" class="ml-3 border rounded px-2 py-1 text-sm">
+            <option value="">Ordenar</option>
+            <option value="titulo" <?= $orden == 'titulo' ? 'selected' : '' ?>>Título</option>
+            <option value="anio" <?= $orden == 'anio' ? 'selected' : '' ?>>Año</option>
+        </select>
+
+        <select name="disponibilidad" onchange="this.form.submit()" 
+                class="ml-3 border rounded px-2 py-1 text-sm">
+
+            <option value="">Todos</option>
+            <?php $disp = $_GET['disponibilidad'] ?? ''; ?>
+
+            <option value="disponible" <?= $disp == 'disponible' ? 'selected' : '' ?>>
+                Disponibles
+            </option>
+
+            <option value="prestado" <?= $disp == 'prestado' ? 'selected' : '' ?>>
+                No disponibles
+            </option>
+
+        </select>
     </div>
 </form>
 <?php if (!empty($busqueda)): ?>
     <p class="text-gray-500 mb-4">
-        Resultados para: <strong><?= htmlspecialchars($busqueda) ?></strong>
+        <?= count($libros) ?>
+         resultados para: <strong><?= htmlspecialchars($busqueda) ?></strong>
     </p>
 <?php endif; ?>
 
@@ -63,7 +95,7 @@ require __DIR__ . "/../layout.php";?>
 
     <h1 class="text-3xl font-bold mb-8 text-gray-800">Libros disponibles</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
+    <div id="resultadosLibros" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
 
         <?php foreach ($libros as $libro): ?>
 
@@ -157,6 +189,33 @@ require __DIR__ . "/../layout.php";?>
     </div>
 
 <?php endif; ?>
+<script>
+const input = document.getElementById("busquedaInput");
+const contenedor = document.getElementById("resultadosLibros");
 
+let timeout = null;
+
+input.addEventListener("input", () => {
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+
+        fetch(`?busqueda=${encodeURIComponent(input.value)}`)
+            .then(res => res.text())
+            .then(html => {
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+
+                const nuevosResultados = doc.getElementById("resultadosLibros");
+
+                contenedor.innerHTML = nuevosResultados.innerHTML;
+
+            });
+
+    }, 400);
+});
+</script>
 
 <?php require __DIR__ . "/../footer.php"; ?>
+
