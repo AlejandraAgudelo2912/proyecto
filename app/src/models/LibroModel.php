@@ -190,6 +190,26 @@ class LibroModel {
         ]);
     }
 
+    public function actualizarLibro($id, $titulo, $autor, $genero, $anio) {
+
+        $sql = "UPDATE libros 
+                SET titulo = :titulo,
+                    autor = :autor,
+                    genero = :genero,
+                    anio = :anio
+                WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            'titulo' => $titulo,
+            'autor' => $autor,
+            'genero' => $genero,
+            'anio' => $anio,
+            'id' => $id
+        ]);
+    }
+
     public function obtenerGeneros() {
 
         $sql = "SELECT DISTINCT genero FROM libros ORDER BY genero ASC";
