@@ -16,17 +16,19 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $db= new LibroModel();
 
-
-$headers = getallheaders();
+$headers = array_change_key_case(getallheaders(), CASE_LOWER);
 $keyRecibida = $headers["x-api-key"] ?? "";
 
-//$rol = obtener_rol($keyRecibida);
+$usuario = obtener_usuario_por_key($keyRecibida);
 
-//if (!$rol) {
- //   http_response_code(401);
- //   echo json_encode(["error" => "API key no válida"]);
-// exit;
-//}
+if (!$usuario) {
+    http_response_code(401);
+    echo json_encode(["error" => "API key no válida"]);
+    exit;
+}
+
+$rol = $usuario['rol'];
+$id_usuario = $usuario['id'];
 
 $path = trim($uri, "/");
 $partes = explode("/", $path);
@@ -81,19 +83,23 @@ switch ($requestMethod) {
             exit;
         }
 
-        $id = $db->crearLibro(
+        $id= $db->crearLibro(
             $data["titulo"] ?? null,
             $data["autor"] ?? null,
             $data["genero"] ?? null,
             $data["anio"] ?? null,
-            $data["id_usuario"] ?? null,
-            $data["caratula"] ?? null,
-            );
+            $id_usuario,
+            $data["caratula"] ?? null
+  
+        );
+
+        $libro = $db->obtenerLibroPorId($id);
 
         http_response_code(201);
         echo json_encode([
             "status" => "created",
-            "id" => $id
+            "id" => $id,
+            "data" => $libro
         ]);
         break;
 

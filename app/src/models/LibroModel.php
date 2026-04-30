@@ -50,14 +50,14 @@ class LibroModel {
         return $libros;
     }
 
-    public function crearLibro($titulo, $autor, $genero, $anio, $id_usuario, $caratula): bool {
+    public function crearLibro($titulo, $autor, $genero, $anio, $id_usuario, $caratula) {
 
         $sql = "INSERT INTO libros (titulo, id_usuario, autor, genero, anio, caratula) 
                 VALUES (:titulo, :id_usuario, :autor, :genero, :anio, :caratula)";
 
         $stmt = $this->db->prepare($sql);
 
-        return $stmt->execute([
+        $stmt->execute([
             'titulo' => $titulo,
             'autor' => $autor,
             'genero' => $genero,
@@ -65,6 +65,7 @@ class LibroModel {
             'id_usuario' => $id_usuario,
             'caratula' => $caratula
         ]);
+        return $this->db->lastInsertId();
     }
 
     public function buscarLibros($busqueda, $orden = '', $disponibilidad = '') {

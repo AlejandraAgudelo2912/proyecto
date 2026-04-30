@@ -6,7 +6,8 @@
             "App\\": "src/"
         },
         "files":[
-            "src/helpers/funciones.php"
+            "src/helpers/funciones.php",
+            "../api/includes/funciones.php"
         ]
     },
     "authors": [

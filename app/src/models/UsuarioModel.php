@@ -24,16 +24,21 @@ class UsuarioModel {
     
     public function crearUsuario(string $nombre, $apellido1, $apellido2, string $email, string $password): bool {
 
-        $sql = "INSERT INTO usuarios (nombre,apellido1, apellido2, email, password) VALUES (:nombre, :apellido1, :apellido2, :email, :password)";
-        
+        $apiKey = generarApiKey();
+
+        $sql = "INSERT INTO usuarios 
+                (nombre, apellido1, apellido2, email, password, api_key) 
+                VALUES (:nombre, :apellido1, :apellido2, :email, :password, :api_key)";
+
         $stmt = $this->db->prepare($sql);
-        
+
         return $stmt->execute([
             'nombre' => $nombre,
             'apellido1' => $apellido1,
             'apellido2' => $apellido2,
             'email' => $email,
-            'password' => $password
+            'password' => $password,
+            'api_key' => $apiKey
         ]);
     }
 

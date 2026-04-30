@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Libros",
+    "version": "1.0.0",
+    "description": "API para gestión de libros"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/prestamo_de_libros"
+    }
+  ],
+  "paths": {
+    "/api/libros": {
+      "get": {
+        "summary": "Obtener libros",
+        "parameters": [
+          {
+            "name": "busqueda",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "orden",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "disponibilidad",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de libros"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear libro",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "titulo": { "type": "string" },
+                  "autor": { "type": "string" },
+                  "genero": { "type": "string" },
+                  "anio": { "type": "integer" },
+                  "caratula": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Libro creado"
+          }
+        }
+      }
+    },
+    "/api/libros/{id}": {
+      "get": {
+        "summary": "Obtener libro por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Libro encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar libro",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Eliminado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Libro": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "titulo": { "type": "string" },
+          "autor": { "type": "string" },
+          "genero": { "type": "string" },
+          "anio": { "type": "integer" },
+          "caratula": { "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ]
+}
