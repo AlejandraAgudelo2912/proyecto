@@ -60,5 +60,5 @@ if (!$ok) {
 }
 session_destroy();
 logger()->info("Nuevo usuario registrado: " . $email);
-header("Location: ../../public/index.php");
+header("Location: login.php");
 exit;

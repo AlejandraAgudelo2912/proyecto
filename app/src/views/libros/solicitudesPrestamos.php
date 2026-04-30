@@ -6,6 +6,11 @@ use App\Models\PrestamosModel;
 
 $model = new PrestamosModel();
 
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 $solicitudes = $model->obtenerSolicitudesDeMisLibros($_SESSION['usuario']['id']);
 ?>
 
