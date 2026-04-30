@@ -320,37 +320,50 @@ $miSolicitud = $prestamoModel->obtenerSolicitudUsuario(
             <?php else: ?>
 
                 <?php foreach ($comentarios as $c): ?>
-                    <?php if ($c['id_usuario'] == $_SESSION['usuario']['id']): ?>
-                            <div class="bg-blue-50 p-4 rounded-xl shadow mb-3">
 
-                                <p class="text-sm text-blue-700 mb-1">
-                                    <?= htmlspecialchars($c['nombre']) ?> · <?= $c['fecha'] ?>
-                                </p>
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition mb-3">
 
-                                <p><?= htmlspecialchars($c['comentario']) ?></p>
+                        <!-- CABECERA -->
+                        <div class="flex justify-between items-center mb-2">
+
+                            <div class="flex items-center gap-2">
+
+                                <span class="font-semibold text-gray-800">
+                                    <?= htmlspecialchars($c['nombre']) ?>
+                                </span>
+
+                            </div>
+
+                            <!-- fecha -->
+                            <span class="text-xs text-gray-400">
+                                <?= date("d/m/Y", strtotime($c['fecha'])) ?>
+                            </span>
+
+                        </div>
+
+                        <!-- COMENTARIO -->
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            <?= htmlspecialchars($c['comentario']) ?>
+                        </p>
+
+                        <!-- ACCIONES SOLO SI ES SUYO -->
+                        <?php if ($c['id_usuario'] == $_SESSION['usuario']['id']): ?>
+
+                            <div class="flex gap-2 mt-3">
 
                                 <a href="<?= BASE_URL ?>src/views/comentarios/editarComentario.php?id=<?= $c['id'] ?>"
-                                class="inline-block mt-4 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">
-                                    Editar comentario
+                                    class="text-xs bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 transition">
+                                    Editar
                                 </a>
 
                                 <a href="<?= BASE_URL ?>src/views/comentarios/eliminarComentario.php?id=<?= $c['id'] ?>&id_libro=<?= $c['id_libro'] ?>"
-                                class="inline-block mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
-                                    Eliminar comentario
+                                    class="text-xs bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition">
+                                    Eliminar
                                 </a>
 
                             </div>
 
-                        <?php continue; ?>
-                    <?php endif; ?>
-
-                    <div class="bg-white p-4 rounded-lg shadow mb-3">
-
-                        <p class="text-sm text-gray-500 mb-1">
-                            <?= htmlspecialchars($c['nombre']) ?> · <?= $c['fecha'] ?>
-                        </p>
-
-                        <p><?= htmlspecialchars($c['comentario']) ?></p>
+                        <?php endif; ?>
 
                     </div>
 

@@ -19,13 +19,13 @@ $solicitudes = $model->obtenerSolicitudesDeMisLibros($_SESSION['usuario']['id'])
 <div class="max-w-5xl mx-auto py-10">
 
     <h1 class="text-3xl font-bold mb-8 text-gray-800">
-        📥 Solicitudes recibidas
+        Solicitudes recibidas
     </h1>
 
     <?php if (empty($solicitudes)): ?>
 
         <div class="bg-gray-100 p-6 rounded-xl text-center text-gray-500 shadow">
-            No tienes solicitudes 😴
+            No tienes solicitudes
         </div>
 
     <?php else: ?>
@@ -54,13 +54,13 @@ $solicitudes = $model->obtenerSolicitudesDeMisLibros($_SESSION['usuario']['id'])
                         <!-- ACEPTAR -->
                         <a href="<?= BASE_URL ?>src/views/libros/aceptarPrestamos.php?id=<?= $s['id'] ?>"
                            class="flex-1 text-center bg-green-500 text-white py-2 rounded-xl hover:bg-green-600 transition">
-                            ✅ Aceptar
+                            Aceptar
                         </a>
 
                         <!-- RECHAZAR -->
                         <a href="<?= BASE_URL ?>src/views/libros/rechazarPrestamos.php?id=<?= $s['id'] ?>"
                            class="flex-1 text-center bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition">
-                            ❌ Rechazar
+                            Rechazar
                         </a>
 
                     </div>
