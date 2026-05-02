@@ -34,6 +34,7 @@
 - [x] colores por género
 - [x] "añadido hace X días"
 - [x] preview imagen antes de subir
+- [x] buscador con autocompletado
 
 ---
 
@@ -47,4 +48,3 @@
 
 - [ ] Tratar con datos, tipo que las fechas sean verdaderas
 - [ ] Recomendaciones
-- [ ] buscador con autocompletado
