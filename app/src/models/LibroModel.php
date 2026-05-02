@@ -238,4 +238,29 @@ class LibroModel {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Devuelve sugerencias para autocompletado (títulos, autores, géneros).
+     */
+    public function obtenerSugerencias($termino, $limit = 8) {
+        $sugerencias = [];
+        $like = "%" . $termino . "%";
+
+        // Títulos
+        $stmt = $this->db->prepare("SELECT DISTINCT titulo AS texto, 'titulo' AS tipo FROM libros WHERE titulo LIKE :t LIMIT 4");
+        $stmt->execute(['t' => $like]);
+        $sugerencias = array_merge($sugerencias, $stmt->fetchAll(PDO::FETCH_ASSOC));
+
+        // Autores
+        $stmt = $this->db->prepare("SELECT DISTINCT autor AS texto, 'autor' AS tipo FROM libros WHERE autor LIKE :t LIMIT 3");
+        $stmt->execute(['t' => $like]);
+        $sugerencias = array_merge($sugerencias, $stmt->fetchAll(PDO::FETCH_ASSOC));
+
+        // Géneros
+        $stmt = $this->db->prepare("SELECT DISTINCT genero AS texto, 'genero' AS tipo FROM libros WHERE genero LIKE :t LIMIT 3");
+        $stmt->execute(['t' => $like]);
+        $sugerencias = array_merge($sugerencias, $stmt->fetchAll(PDO::FETCH_ASSOC));
+
+        return array_slice($sugerencias, 0, $limit);
+    }
 }

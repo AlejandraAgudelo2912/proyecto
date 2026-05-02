@@ -43,12 +43,14 @@ function resaltar($texto, $busqueda) {
 require __DIR__ . "/../layout.php";?>
 
 <form id="formBusqueda" class="mb-8">
+    <div class="relative">
     <div class="flex items-center bg-white rounded-full shadow px-4 py-2 w-full">
         <input type="text" name="busqueda"
                 id="busquedaInput"
                 placeholder="Buscar libros..."
                 class="flex-1 outline-none bg-transparent px-2"
-                value="<?= htmlspecialchars($busqueda) ?>">
+                value="<?= htmlspecialchars($busqueda) ?>"
+                autocomplete="off">
 
         <button class="bg-blue-600 text-white px-4 py-1 rounded-full hover:bg-blue-700 transition">
             Buscar
@@ -85,6 +87,12 @@ require __DIR__ . "/../layout.php";?>
             </option>
 
         </select>
+    </div>
+
+    <!-- Dropdown autocompletado -->
+    <div id="autocompleteDropdown" 
+         class="hidden absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden max-h-72 overflow-y-auto">
+    </div>
     </div>
 </form>
 <?php if (!empty($busqueda)): ?>
@@ -206,28 +214,138 @@ require __DIR__ . "/../layout.php";?>
 <script>
 const input = document.getElementById("busquedaInput");
 const contenedor = document.getElementById("resultadosLibros");
+const dropdown = document.getElementById("autocompleteDropdown");
 
-let timeout = null;
+let timeoutBusqueda = null;
+let timeoutAutocompletado = null;
+let indiceActivo = -1;
 
+// Iconos por tipo de sugerencia
+const iconosTipo = {
+    titulo: '📖',
+    autor: '✍️',
+    genero: '🏷️'
+};
+
+const labelTipo = {
+    titulo: 'Título',
+    autor: 'Autor',
+    genero: 'Género'
+};
+
+// Autocompletado
 input.addEventListener("input", () => {
-    clearTimeout(timeout);
+    const valor = input.value.trim();
 
-    timeout = setTimeout(() => {
+    // Limpiar timeouts
+    clearTimeout(timeoutAutocompletado);
+    clearTimeout(timeoutBusqueda);
 
-        fetch(`?busqueda=${encodeURIComponent(input.value)}`)
-            .then(res => res.text())
-            .then(html => {
+    if (valor.length < 2) {
+        dropdown.classList.add("hidden");
+        dropdown.innerHTML = "";
+        return;
+    }
 
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, "text/html");
+    // Autocompletado rápido (200ms)
+    timeoutAutocompletado = setTimeout(() => {
+        fetch(`autocompletado.php?q=${encodeURIComponent(valor)}`)
+            .then(res => res.json())
+            .then(sugerencias => {
+                if (sugerencias.length === 0) {
+                    dropdown.classList.add("hidden");
+                    dropdown.innerHTML = "";
+                    return;
+                }
 
-                const nuevosResultados = doc.getElementById("resultadosLibros");
+                indiceActivo = -1;
+                dropdown.innerHTML = sugerencias.map((s, i) => {
+                    const textoResaltado = s.texto.replace(
+                        new RegExp(`(${valor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'),
+                        '<strong class="text-blue-600">$1</strong>'
+                    );
+                    return `
+                        <div class="autocomplete-item flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-0"
+                             data-index="${i}" data-texto="${s.texto.replace(/"/g, '&quot;')}">
+                            <span class="text-lg flex-shrink-0">${iconosTipo[s.tipo] || '🔍'}</span>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm truncate">${textoResaltado}</p>
+                                <p class="text-xs text-gray-400">${labelTipo[s.tipo] || s.tipo}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
-                contenedor.innerHTML = nuevosResultados.innerHTML;
+                dropdown.classList.remove("hidden");
 
+                // Click en sugerencia
+                dropdown.querySelectorAll(".autocomplete-item").forEach(item => {
+                    item.addEventListener("click", () => {
+                        input.value = item.dataset.texto;
+                        dropdown.classList.add("hidden");
+                        document.getElementById("formBusqueda").submit();
+                    });
+                });
+            })
+            .catch(() => {
+                dropdown.classList.add("hidden");
             });
+    }, 200);
 
-    }, 400);
+    // Búsqueda live de resultados (500ms)
+    timeoutBusqueda = setTimeout(() => {
+        if (contenedor) {
+            fetch(`?busqueda=${encodeURIComponent(valor)}`)
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, "text/html");
+                    const nuevosResultados = doc.getElementById("resultadosLibros");
+                    if (nuevosResultados) {
+                        contenedor.innerHTML = nuevosResultados.innerHTML;
+                    }
+                });
+        }
+    }, 500);
+});
+
+// Navegación con teclado
+input.addEventListener("keydown", (e) => {
+    const items = dropdown.querySelectorAll(".autocomplete-item");
+    if (items.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+        e.preventDefault();
+        indiceActivo = Math.min(indiceActivo + 1, items.length - 1);
+        actualizarActivo(items);
+    } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        indiceActivo = Math.max(indiceActivo - 1, 0);
+        actualizarActivo(items);
+    } else if (e.key === "Enter" && indiceActivo >= 0) {
+        e.preventDefault();
+        input.value = items[indiceActivo].dataset.texto;
+        dropdown.classList.add("hidden");
+        document.getElementById("formBusqueda").submit();
+    } else if (e.key === "Escape") {
+        dropdown.classList.add("hidden");
+    }
+});
+
+function actualizarActivo(items) {
+    items.forEach((item, i) => {
+        item.classList.toggle("bg-blue-50", i === indiceActivo);
+    });
+    if (items[indiceActivo]) {
+        items[indiceActivo].scrollIntoView({ block: "nearest" });
+    }
+}
+
+// Cerrar dropdown al hacer click fuera
+document.addEventListener("click", (e) => {
+    if (!e.target.closest("#formBusqueda")) {
+        dropdown.classList.add("hidden");
+    }
 });
 </script>
 
