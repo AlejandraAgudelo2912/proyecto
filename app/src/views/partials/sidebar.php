@@ -1,6 +1,19 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/');
+
+use App\Models\UsuarioModel;
+
+// Cargar stats del usuario para contador y badges
+$_sidebarBadges = [];
+$_sidebarLibrosCount = 0;
+if (isset($_SESSION['usuario'])) {
+    $__usuarioModel = new UsuarioModel();
+    $_sidebarLibrosCount = $__usuarioModel->contarLibrosUsuario($_SESSION['usuario']['id']);
+    $_sidebarLibrosLeidos = $__usuarioModel->contarLibrosLeidos($_SESSION['usuario']['id']);
+    $_sidebarValoraciones = $__usuarioModel->contarValoraciones($_SESSION['usuario']['id']);
+    $_sidebarBadges = obtenerBadges($_sidebarLibrosCount, $_sidebarLibrosLeidos, $_sidebarValoraciones);
+}
 ?>
 
 <aside class="w-64 min-h-screen bg-white shadow-xl p-6 sticky top-0">
@@ -50,6 +63,11 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
                Importar CSV
             </a>
 
+            <a href="<?= BASE_URL ?>src/views/libros/topLectores.php"
+               class="hover:text-blue-600 transition font-medium">
+               🏆 Top lectores
+            </a>
+
 
             <!-- ADMINISTRACION -->
             <?php if (isset($_SESSION["usuario"]) && $_SESSION["usuario"]["rol"] === 'admin'): ?>
@@ -69,9 +87,23 @@ define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/
     <!-- BOTTOM (usuario) -->
     <?php if (isset($_SESSION["usuario"])): ?>
         <div class="mt-10 border-t pt-4">
-            <p class="text-sm text-gray-500 mb-2">
+            <p class="text-sm text-gray-500 mb-1">
                 <?= htmlspecialchars($_SESSION["usuario"]["nombre"]) ?>
             </p>
+
+            <p class="text-xs text-gray-400 mb-2">
+                📚 <?= $_sidebarLibrosCount ?> libro<?= $_sidebarLibrosCount != 1 ? 's' : '' ?> subido<?= $_sidebarLibrosCount != 1 ? 's' : '' ?>
+            </p>
+
+            <?php if (!empty($_sidebarBadges)): ?>
+                <div class="flex flex-wrap gap-1 mb-2">
+                    <?php foreach (array_slice($_sidebarBadges, 0, 3) as $badge): ?>
+                        <span class="inline-block <?= $badge['color'] ?> px-2 py-0.5 rounded-full text-xs" title="<?= $badge['texto'] ?>">
+                            <?= $badge['emoji'] ?> <?= $badge['texto'] ?>
+                        </span>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
             <a href="<?= BASE_URL ?>src/views/auth/logout.php"
                class="text-red-500 text-sm hover:underline">

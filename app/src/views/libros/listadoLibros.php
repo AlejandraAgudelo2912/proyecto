@@ -19,10 +19,13 @@ $busqueda = $_GET['busqueda'] ?? '';
 $orden = $_GET['orden'] ?? '';
 $disponibilidad = $_GET['disponibilidad'] ?? '';
 
+$idUsuarioFiltro = ($disponibilidad === 'mios') ? $_SESSION['usuario']['id'] : null;
+$dispFiltro = ($disponibilidad === 'mios') ? '' : $disponibilidad;
+
 if (!empty($busqueda)) {
-    $libros = $libroModel->buscarLibros($busqueda, $orden, $disponibilidad);
+    $libros = $libroModel->buscarLibros($busqueda, $orden, $dispFiltro, $idUsuarioFiltro);
 } else {
-    $libros = $libroModel->obtener_listado_Libros($orden, $disponibilidad);
+    $libros = $libroModel->obtener_listado_Libros($orden, $dispFiltro, $idUsuarioFiltro);
 }
 
 function resaltar($texto, $busqueda) {
@@ -75,6 +78,10 @@ require __DIR__ . "/../layout.php";?>
 
             <option value="prestado" <?= $disp == 'prestado' ? 'selected' : '' ?>>
                 No disponibles
+            </option>
+
+            <option value="mios" <?= $disp == 'mios' ? 'selected' : '' ?>>
+                Mis libros
             </option>
 
         </select>
@@ -130,13 +137,20 @@ require __DIR__ . "/../layout.php";?>
                     <?= resaltar($libro['autor'], $busqueda) ?>
                 </p>
 
-                <span class="inline-block bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs mb-2">
+                <?php $gc = colorGenero($libro['genero'] ?? ''); ?>
+                <span class="inline-block <?= $gc['bg'] ?> <?= $gc['text'] ?> border <?= $gc['border'] ?> px-3 py-1 rounded-full text-xs mb-2">
                     <?= resaltar($libro['genero'], $busqueda) ?>
                 </span>
 
                 <p class="text-xs text-gray-400">
                     <?= resaltar($libro['anio'], $busqueda) ?> · <?= resaltar($libro['nombre'], $busqueda) ?>
                 </p>
+
+                <?php if (!empty($libro['created_at'])): ?>
+                    <p class="text-xs text-gray-300 mt-1 italic">
+                        <?= tiempoRelativo($libro['created_at']) ?>
+                    </p>
+                <?php endif; ?>
 
                 <!-- Botones -->
                 <div class="mt-4">

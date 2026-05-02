@@ -75,6 +75,12 @@ $generos = $libroModel->obtenerGeneros();
                         <?= htmlspecialchars($libro['autor']) ?>
                     </p>
 
+                    <?php if (!empty($libro['created_at'])): ?>
+                        <p class="text-xs text-gray-300 italic">
+                            <?= tiempoRelativo($libro['created_at']) ?>
+                        </p>
+                    <?php endif; ?>
+
                 </div>
                 </a>
 
@@ -136,8 +142,11 @@ $generos = $libroModel->obtenerGeneros();
 
         <div class="mb-10">
 
-            <h3 class="text-xl font-semibold mb-4 text-gray-700">
-                <?= htmlspecialchars($genero) ?>
+            <?php $gc = colorGenero($genero); ?>
+            <h3 class="text-xl font-semibold mb-4">
+                <span class="inline-block <?= $gc['bg'] ?> <?= $gc['text'] ?> border <?= $gc['border'] ?> px-3 py-1 rounded-full">
+                    <?= htmlspecialchars($genero) ?>
+                </span>
             </h3>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-6">

@@ -11,7 +11,7 @@ class LibroModel {
         $this->db = (new Basedatos())->getConexion();
     }
 
-    public function obtener_listado_Libros($orden = '', $disponibilidad = '') {
+    public function obtener_listado_Libros($orden = '', $disponibilidad = '', $idUsuario = null) {
 
         $sql = "
             SELECT 
@@ -34,7 +34,11 @@ class LibroModel {
             $sql .= " AND libros.prestado = 0";
         } elseif ($disponibilidad === 'prestado') {
             $sql .= " AND libros.prestado = 1";
-        }     
+        }
+
+        if ($idUsuario !== null) {
+            $sql .= " AND libros.id_usuario = " . intval($idUsuario);
+        }
 
 
         if ($orden === 'titulo') {
@@ -68,7 +72,7 @@ class LibroModel {
         return $this->db->lastInsertId();
     }
 
-    public function buscarLibros($busqueda, $orden = '', $disponibilidad = '') {
+    public function buscarLibros($busqueda, $orden = '', $disponibilidad = '', $idUsuario = null) {
 
         $sql = "
             SELECT libros.*, usuarios.nombre
@@ -85,6 +89,10 @@ class LibroModel {
             $sql .= " AND libros.prestado = 0";
         } elseif ($disponibilidad === 'prestado') {
             $sql .= " AND libros.prestado = 1";
+        }
+
+        if ($idUsuario !== null) {
+            $sql .= " AND libros.id_usuario = " . intval($idUsuario);
         }
 
         if ($orden === 'titulo') {

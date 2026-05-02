@@ -6,3 +6,7 @@
 [2026-04-30T13:08:27.474428+02:00] app.INFO: Usuario ha iniciado sesión: tuputamadre@gamil.com [] []
 [2026-04-30T13:10:41.256715+02:00] app.INFO: Usuario ha cerrado sesión: desconocido [] []
 [2026-04-30T13:10:48.839119+02:00] app.INFO: Usuario ha iniciado sesión: tuputamadre@gamil.com [] []
+[2026-05-01T11:07:27.001694+02:00] app.INFO: Nuevo usuario registrado: nicolasfloreslaura@gmail.com [] []
+[2026-05-01T11:07:33.847112+02:00] app.INFO: Usuario ha iniciado sesión: nicolasfloreslaura@gmail.com [] []
+[2026-05-01T11:10:22.498784+02:00] app.INFO: Nuevo usuario registrado: test@example.com [] []
+[2026-05-01T11:10:38.548008+02:00] app.INFO: Usuario ha iniciado sesión: test@example.com [] []

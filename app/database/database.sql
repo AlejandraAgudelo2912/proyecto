@@ -62,3 +62,5 @@ ADD prestado BOOLEAN DEFAULT 0,
 ADD prestado_a INT NULL;
 
 ALTER TABLE libros ADD fecha_prestamo DATE NULL;
+
+ALTER TABLE libros ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

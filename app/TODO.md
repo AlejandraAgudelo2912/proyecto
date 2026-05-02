@@ -27,6 +27,13 @@
 - [x] Editar tus propios libros
 - [x] Editar tus propias valoraciones
 - [X] Eliminar tus propios comentarios
+- [x] Filtrar los resultados por libros disponibles y mios
+- [x] Badges visuales
+- [x] Top lectores
+- [x] contador de libros por usuario
+- [x] colores por género
+- [x] "añadido hace X días"
+- [x] preview imagen antes de subir
 
 ---
 
@@ -39,13 +46,5 @@
 ## ❌ Pendiente
 
 - [ ] Tratar con datos, tipo que las fechas sean verdaderas
-- [ ] Filtrar los resultados por libros disponibles y mios
-- [ ] Badges visuales
-- [ ] Top lectores
 - [ ] Recomendaciones
 - [ ] buscador con autocompletado
-- [ ] preview imagen antes de subir
-- [ ] contador de libros por usuario
-- [ ] colores por género
-- [ ] “añadido hace X días”
-
