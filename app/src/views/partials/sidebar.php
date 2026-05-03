@@ -1,8 +1,9 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) session_start();
-define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/');
 
 use App\Models\UsuarioModel;
+
+if (session_status() === PHP_SESSION_NONE) session_start();
+define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/prestamo_de_libros/app/');
 
 // Cargar stats del usuario para contador y badges
 $_sidebarBadges = [];

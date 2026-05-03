@@ -114,5 +114,5 @@ if ($tipo === 'zip') {
     fclose($handle);
 }
 
-header("Location: listadoLibros.php");
+header("Location: ../libros/listadoLibros.php");
 exit;

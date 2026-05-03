@@ -8,16 +8,16 @@
 - [x] Sidebar
 - [x] Opcion de cerrar sesión
 - [x] Registro
-- [x] Posibilidad de autenticarnos con la cuenta de google 
+- [x] Posibilidad de autenticarnos con la cuenta de google
 - [x] Subida de libros
 - [x] Buscador para buscar libros por titulo, autor, genero
 - [x] Resaltación de los resultados de búsqueda
 - [x] Mejora de la interfaz (colores, botones, etc)
 - [x] Prestar y devolver libros
-- [x] Posibilidad de dar de alta libros de forma masiva por medio de un CSV 
+- [x] Posibilidad de dar de alta libros de forma masiva por medio de un CSV
 - [x] Un usuario puede ver los libros que ha dejado para prestar y los que ha pedido prestados
 - [x] Se debe indicar los días que lleva un libro prestado
-- [X] NO BORRAR USUARIO CON PRÉSTAMOS
+- [x] NO BORRAR USUARIO CON PRÉSTAMOS
 - [x] Comentarios
 - [x] Valoraciones con estrellas
 - [x] Interfaz para administrar la aplicación
@@ -26,7 +26,7 @@
 - [x] Logo
 - [x] Editar tus propios libros
 - [x] Editar tus propias valoraciones
-- [X] Eliminar tus propios comentarios
+- [x] Eliminar tus propios comentarios
 - [x] Filtrar los resultados por libros disponibles y mios
 - [x] Badges visuales
 - [x] Top lectores
@@ -39,8 +39,6 @@
 ---
 
 ## 🚧 En desarrollo
-
-
 
 ---
 

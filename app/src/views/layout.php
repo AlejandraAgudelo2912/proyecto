@@ -6,6 +6,7 @@
     <title><?= $title ?? 'Préstamo de Libros' ?></title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <?php require __DIR__. "/../../vendor/autoload.php"; ?>
 </head>
 
 <body class="min-h-screen flex flex-col bg-[#f5f3ef]">

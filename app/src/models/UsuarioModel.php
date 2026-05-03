@@ -95,31 +95,38 @@ class UsuarioModel {
     public function usuarioTienePrestamos($id) {
 
         $sql = "
+                SELECT COUNT(*) as total
+                FROM prestamos
+                WHERE id_usuario = :id
+            ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['id' => $id]);
+
+        $totalPrestamos = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+        $sql2 = "
             SELECT COUNT(*) as total
             FROM libros
             WHERE id_usuario = :id OR prestado_a = :id
         ";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['id' => $id]);
+        $stmt2 = $this->db->prepare($sql2);
+        $stmt2->execute(['id' => $id]);
 
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $totalLibros = $stmt2->fetch(PDO::FETCH_ASSOC)['total'];
 
-        return $resultado['total'] > 0;
+        return ($totalPrestamos + $totalLibros) > 0;
     }
 
-    /**
-     * Cuenta los libros subidos por un usuario.
-     */
+
     public function contarLibrosUsuario($id) {
         $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM libros WHERE id_usuario = :id");
         $stmt->execute(['id' => $id]);
         return (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    /**
-     * Cuenta los libros que un usuario ha tomado prestados (devueltos = leídos).
-     */
+
     public function contarLibrosLeidos($id) {
         $stmt = $this->db->prepare("
             SELECT COUNT(*) as total FROM prestamos 
@@ -129,18 +136,14 @@ class UsuarioModel {
         return (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    /**
-     * Cuenta las valoraciones hechas por un usuario.
-     */
+
     public function contarValoraciones($id) {
         $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM valoraciones WHERE id_usuario = :id");
         $stmt->execute(['id' => $id]);
         return (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    /**
-     * Obtiene el ranking de usuarios que más libros han leído (préstamos devueltos).
-     */
+
     public function obtenerTopLectores($limit = 10) {
         $sql = "
             SELECT 

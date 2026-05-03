@@ -5,17 +5,23 @@ require __DIR__ . "/../../../vendor/autoload.php";
 use App\Models\UsuarioModel;
 
 if (!isset($_SESSION["usuario"]) || $_SESSION["usuario"]["rol"] !== 'admin') {
-    die("Acceso denegado 💀");
+    $_SESSION['error'] = "Acceso denegado";
+    header("Location: ../index.php");
+    exit;
 }
 
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
-    die("ID no válido");
+    $_SESSION['error'] = "ID de usuario no proporcionado";
+    header("Location: ../admin/admin.php");
+    exit;
 }
 
 if ($id == $_SESSION["usuario"]["id"]) {
-    die("No puedes eliminarte a ti mismo");
+    $_SESSION['error'] = "No puedes eliminar tu propia cuenta";
+    header("Location: ../admin/admin.php");
+    exit;
 }
 
 $usuarioModel = new UsuarioModel();

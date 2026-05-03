@@ -241,10 +241,9 @@ input.addEventListener("input", () => {
     clearTimeout(timeoutAutocompletado);
     clearTimeout(timeoutBusqueda);
 
-    if (valor.length < 2) {
+    if (valor.length === 0) {
         dropdown.classList.add("hidden");
         dropdown.innerHTML = "";
-        return;
     }
 
     // Autocompletado rápido (200ms)
@@ -295,7 +294,7 @@ input.addEventListener("input", () => {
     // Búsqueda live de resultados (500ms)
     timeoutBusqueda = setTimeout(() => {
         if (contenedor) {
-            fetch(`?busqueda=${encodeURIComponent(valor)}`)
+            fetch(`?busqueda=${encodeURIComponent(valor)}&_=${Date.now()}`)
                 .then(res => res.text())
                 .then(html => {
                     const parser = new DOMParser();
